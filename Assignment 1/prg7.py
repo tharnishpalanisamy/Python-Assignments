@@ -1,46 +1,70 @@
-num = int(input("Enter an integer: "))
-n = abs(num)
+import math
 
-# digits analysis
-digits = [int(d) for d in str(n)]
-num_digits = len(digits)
-sum_digits = sum(digits)
+n = int(input("Enter a number: "))
 
-prod_digits = 1
-for d in digits:
-    prod_digits *= d
+def number_of_digits(n):
+    res = 0
 
-rev_str = str(n)[::-1]
-rev_num = int(rev_str) if rev_str else 0
-if num < 0:
-    rev_num = -rev_num
+    while n > 0:
+        res += 1
+        n //= 10
+    return res
 
-# even or odd
-parity = "Even" if num % 2 == 0 else "Odd"
+def sum_of_digits(n):
+    res = 0
+    while n > 0:
+        digit = n % 10
+        res += digit
+        n //= 10
+    return res
 
-# prime check
-if num <= 1:
-    is_prime = False
-else:
-    is_prime = True
-    for i in range(2, int(num ** 0.5) + 1):
-        if num % i == 0:
-            is_prime = False
-            break
 
-# palindrome check
-is_palindrome = (str(num) == str(num)[::-1])
+def prod_of_digits(n):
+    res = 1
+    while n > 0:
+        res *= n % 10
+        n //= 10
+    return res
 
-# armstrong check (sum of each digit raised to power of num_digits)
-armstrong_sum = sum(d ** num_digits for d in digits)
-is_armstrong = (armstrong_sum == n and num >= 0)
 
-print("\n--- Number Analysis ---")
-print(f"Number of digits   : {num_digits}")
-print(f"Sum of digits      : {sum_digits}")
-print(f"Product of digits  : {prod_digits}")
-print(f"Reverse            : {rev_num}")
-print(f"Even/Odd           : {parity}")
-print(f"Prime status       : {'Prime' if is_prime else 'Not Prime'}")
-print(f"Palindrome status  : {'Palindrome' if is_palindrome else 'Not Palindrome'}")
-print(f"Armstrong status   : {'Armstrong' if is_armstrong else 'Not Armstrong'}")
+def reverse_digits(n):
+    res = 0
+    while n > 0:
+        res = res * 10 + n % 10
+        n //= 10
+    return res
+
+def check_palindrome(n):
+    reverse = reverse_digits(n)
+    return n == reverse
+
+def check_armstrong_number(n) :
+    digits = len(str(n))
+    x = n
+    res = 0
+    while x > 0:
+        res += (x % 10 ) ** digits
+        x //= 10
+    return res == n
+
+def check_prime(n) :
+    if n < 2 :
+        return False
+    for i in range(2, int(math.sqrt(n)) + 1) :
+        if n % i == 0 :
+            return False
+    return True
+
+
+
+
+print('Results : ')
+print(f"----results ------\n"
+      f"Number of digits: {number_of_digits(n)}\n"
+      f"Sum of Digits: {sum_of_digits(n)}\n "
+      f"Product: {prod_of_digits(n)}\n"
+      f"Reverse: {reverse_digits(n)}\n"
+      f"Even / Odd : {'Even' if n % 2 == 0 else 'Odd'}\n"
+      f"Prime : {check_prime(n)}\n"
+      f"Palindrome : {check_palindrome(n)} \n"
+      f"Armstrong : {check_armstrong_number(n)}\n"  )
