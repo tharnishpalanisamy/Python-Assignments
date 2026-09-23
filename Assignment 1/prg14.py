@@ -1,6 +1,6 @@
 student = {
     "id": 101,
-    "name": "Karthik",
+    "name": "Tharnish",
     "course": "Python",
     "marks": 88
 }

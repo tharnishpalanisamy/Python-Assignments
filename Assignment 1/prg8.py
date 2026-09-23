@@ -43,7 +43,7 @@ def sum_of_digits(n):
     print(f"Sum of digits of {n} is {total}.")
 
 while True:
-    print("\n===== NUMBER ANALYZER =====")
+    print("\n Number Analyzer")
     print("1. Check Even/Odd")
     print("2. Check Prime")
     print("3. Check Palindrome")

@@ -1,71 +1,139 @@
 employees = [
-    {"id": 101, "name": "Ravi", "dept": "IT", "salary": 55000.0},
-    {"id": 102, "name": "Meena", "dept": "HR", "salary": 48000.0},
-    {"id": 103, "name": "Karthik", "dept": "IT", "salary": 72000.0}
+    {   
+        'id' : 101 , 
+        'name' : 'tharnish' ,  
+        'salary' : 20000 , 
+        'department' : 'IT'
+        
+    } , 
+    {
+        'id' : 102 , 
+        'name' : 'Sastha' , 
+        'salary' : 25000 , 
+        'department' : 'HR'
+    } , 
+    {
+        'id' : 103 , 
+        'name' : 'Karthik' , 
+        'salary' : 30000 ,
+        'department' : 'IT'
+    }
+
 ]
 
-while True:
-    print("\n--- Employee Management Console ---")
-    print("1. Add Employee")
-    print("2. View Employees")
-    print("3. Search Employee")
-    print("4. Find Highest Salary")
-    print("5. Display Employees by Department")
-    print("6. Exit")
+print("Initial list of employees:") 
+for emp in employees : 
+    print('-------------')
+    print(emp) 
+    print('-------------')
 
-    choice = input("Enter your choice (1-6): ")
 
-    match choice:
-        case "1":
-            emp_id = int(input("Enter Employee ID: "))
-            name = input("Enter Name: ")
-            dept = input("Enter Department: ")
-            salary = float(input("Enter Salary: "))
+while True : 
+    choice = int (input(
+        f"1 . Add Employee  \n" 
+        f"2. View Employee \n " 
+        f"3. Search Employee \n" 
+        f"4. Highest Salary \n" 
+        f"5. display employees by department \n" 
+        f"6. Exit  : " 
+    ))
 
-            emp = {"id": emp_id, "name": name, "dept": dept, "salary": salary}
-            employees.append(emp)
-            print("Employee added successfully.")
+    match choice : 
+        case 1 : 
+            employee_id = int(input('Enter the employee id : '))
+            employee_name = input('Enter the employee Name  : ' )  
+            employee_salary = float(input('Enter the employee Salary : ')) 
+            employee_department = input('Enter the employee department : ')
 
-        case "2":
-            if not employees:
-                print("No employees found.")
-            else:
-                print("\nID\tName\t\tDepartment\tSalary")
-                print("-" * 45)
-                for e in employees:
-                    print(f"{e['id']}\t{e['name']:<12}\t{e['dept']:<10}\tRs. {e['salary']:.2f}")
+            new_emp = {
+                'id' : employee_id , 'name' : employee_name , 'salary' : employee_salary , 'department' : employee_department
+            }
 
-        case "3":
-            query = input("Enter employee ID or name to search: ").lower()
-            results = [e for e in employees if str(e["id"]) == query or e["name"].lower() == query]
+            employees.append(new_emp)
 
-            if results:
-                for e in results:
-                    print(f"Found: ID={e['id']}, Name={e['name']}, Dept={e['dept']}, Salary=Rs. {e['salary']:.2f}")
-            else:
-                print("Employee not found.")
+            user_continue = input('click 1 to continue : ')
+            if user_continue != '1' :
+                break
 
-        case "4":
-            if not employees:
-                print("No employee records available.")
-            else:
-                top_earner = max(employees, key=lambda e: e["salary"])
-                print(f"Highest Salary: {top_earner['name']} with Rs. {top_earner['salary']:.2f} ({top_earner['dept']})")
 
-        case "5":
-            dept_name = input("Enter department name: ").strip().lower()
-            filtered = [e for e in employees if e["dept"].lower() == dept_name]
+        case 2 :
+            search_id = int(input('Enter the employee id to search : '))
+            for emp in employees : 
+                if emp['id'] == search_id :
+                    print(
+                        f"Id : {emp['id']}" 
+                        f"Name : {emp['name']}" 
+                        f"Salary : {emp['salary']}" 
+                        f"Department : {emp['department']}"
+                    ) 
+                    break
 
-            if filtered:
-                print(f"\nEmployees in {dept_name.upper()}:")
-                for e in filtered:
-                    print(f"- {e['name']} (ID: {e['id']}), Salary: Rs. {e['salary']:.2f}")
-            else:
-                print(f"No employees found in department '{dept_name}'.")
+            user_continue = input('click 1 to continue : ')
+            if user_continue != '1':
+                break
 
-        case "6":
-            print("Exiting Employee Management Console.")
+        case 3 :
+            search_id = int(input('Enter the employee id to search : '))
+
+            for emp in employees :
+                if emp['id'] == search_id :
+                    print(
+                        f"Id : {emp['id']}" 
+                        f"Name : {emp['name']}" 
+                        f"Salary : {emp['salary']}" 
+                        f"Department : {emp['department']}"
+                    )
+                    break
+            print('Employee Not Found')
+            user_continue = input('click 1 to continue : ')
+            if user_continue != '1':
+                break
+        case 4 :
+            highest = 0
+            search_id = 0
+            for emp in employees :
+                if emp['salary'] > highest :
+                    highest = emp['salary']
+                    search_id = emp['id']
+            for emp in employees :
+                if emp['id'] == search_id :
+                    print(
+                        f"Id : {emp['id']}" 
+                        f"Name : {emp['name']}" 
+                        f"Salary : {emp['salary']}" 
+                        f"Department : {emp['department']}"
+                    )
+                    break
+
+            user_continue = input('click 1 to continue : ')
+            if user_continue != '1':
+                break
+
+        case 5 :
+            depts = set()
+            for emp in employees :
+                depts.add(emp['department'])
+
+            for dept in depts :
+                for emp in employees :
+                    if dept == emp['department'] :
+                        print(
+                            f"Id : {emp['id']}" 
+                            f"Name : {emp['name']}" 
+                            f"Salary : {emp['salary']}" 
+                            f"Department : {emp['department']}"
+                        )
+
+            user_continue = input('click 1 to continue : ')
+            if user_continue != '1':
+                break
+        case 6 :
+            print('Thanks for using out system')
             break
+        case _ :
+            print('Invalid Choice')
 
-        case _:
-            print("Invalid choice, please select between 1 and 6.")
+
+
+
+

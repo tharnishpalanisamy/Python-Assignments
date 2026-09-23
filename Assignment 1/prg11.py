@@ -1,6 +1,6 @@
 accounts = {
     "1001": {
-        "name": "Karthik",
+        "name": "Tharnish",
         "balance": 5000.0,
         "history": ["Account opened with Rs. 5000.00"]
     }
