@@ -60,6 +60,36 @@
     }
   },
   {
+    "id": 5,
+    "service_name": "Health Insurance",
+    "description": "Insurance coverage that helps customers manage medical and hospitalization expenses.",
+    "fee": 12000,
+    "duration_months": 12,
+    "annual_premium_rate": 0.05,
+    "eligibility": {
+        "minimum_age": 18,
+        "maximum_age": 65,
+        "minimum_income": 15000,
+        "employment_required": false,
+        "credit_score_required": null
+    }
+},
+{
+    "id": 6,
+    "service_name": "Term Insurance",
+    "description": "Life insurance coverage that provides financial protection to the policyholder's beneficiaries during the policy term.",
+    "fee": 10000,
+    "duration_months": 60,
+    "annual_premium_rate": 0.05,
+    "eligibility": {
+        "minimum_age": 18,
+        "maximum_age": 60,
+        "minimum_income": 15000,
+        "employment_required": false,
+        "credit_score_required": null
+    }
+},
+  {
     "id": 7,
     "service_name": "Credit Card",
     "description": "A payment card that allows customers to make purchases using a predefined credit limit.",

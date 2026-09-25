@@ -1,0 +1,98 @@
+[
+    {
+        "id": 1,
+        "name": "tharnish",
+        "age": 23,
+        "employed": "1",
+        "income": 200000.0,
+        "credit_score": 1000,
+        "history": [
+            "Applied for Personal Loan of amount 2000000.0 with EMI 43985.21 at interest rate 11.5 % for duration of 60 months.",
+            "Applied for Term Insurance of coverage amount 100000.0 with monthly premium 1668.79 at annual premium rate 0.05 % for duration of 60 months."
+        ],
+        "services": [
+            "Personal Loan",
+            "Term Insurance"
+        ],
+        "loans": [
+            {
+                "loan_id": 1,
+                "loan_type": "Personal Loan",
+                "loan_amount": 2000000.0,
+                "emi": 43985.214749741,
+                "interest_rate": 11.5,
+                "duration_months": 0,
+                "status": "closed",
+                "payment_history": [
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Personal Loan",
+                        "amount": 50000.0,
+                        "date": "2026-09-25 22:49:13"
+                    }
+                ]
+            }
+        ],
+        "insurance": [
+            {
+                "insurance_id": 1,
+                "insurance_type": "Term Insurance",
+                "coverage_amount": 100000.0,
+                "monthly_premium": 1668.7855900164125,
+                "annual_premium_rate": 0.05,
+                "duration_months": 60,
+                "status": "active",
+                "payment_history": []
+            }
+        ],
+        "cards": []
+    },
+    {
+        "id": 1,
+        "name": "tharnish",
+        "age": 23,
+        "employed": "1",
+        "income": 200000.0,
+        "credit_score": 1000,
+        "history": [
+            "Applied for Personal Loan of amount 2000000.0 with EMI 43985.21 at interest rate 11.5 % for duration of 60 months.",
+            "Applied for Term Insurance of coverage amount 100000.0 with monthly premium 1668.79 at annual premium rate 0.05 % for duration of 60 months."
+        ],
+        "services": [
+            "Personal Loan",
+            "Term Insurance"
+        ],
+        "loans": [
+            {
+                "loan_id": 1,
+                "loan_type": "Personal Loan",
+                "loan_amount": 2000000.0,
+                "emi": 43985.214749741,
+                "interest_rate": 11.5,
+                "duration_months": 0,
+                "status": "closed",
+                "payment_history": [
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Personal Loan",
+                        "amount": 50000.0,
+                        "date": "2026-09-25 22:49:13"
+                    }
+                ]
+            }
+        ],
+        "insurance": [
+            {
+                "insurance_id": 1,
+                "insurance_type": "Term Insurance",
+                "coverage_amount": 100000.0,
+                "monthly_premium": 1668.7855900164125,
+                "annual_premium_rate": 0.05,
+                "duration_months": 60,
+                "status": "active",
+                "payment_history": []
+            }
+        ],
+        "cards": []
+    }
+]
