@@ -1,0 +1,25 @@
+[
+    {
+        "id": 1,
+        "name": "1",
+        "age": 26,
+        "income": 1500000.0,
+        "employed": 1,
+        "history": [
+            "Took a $100000.0 Personal Loan with a duration of 60 months",
+            "Took a $100000.0 Home Loan with a duration of 240 months"
+        ],
+        "services": [
+            "Personal Loan",
+            "Home Loan"
+        ],
+        "emi_history": {
+            "Personal Loan": [
+                2200
+            ],
+            "Home Loan": [
+                868
+            ]
+        }
+    }
+]

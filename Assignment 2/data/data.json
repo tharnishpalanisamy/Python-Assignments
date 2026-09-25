@@ -1,0 +1,123 @@
+[
+  {
+    "id": 1,
+    "service_name": "Personal Loan",
+    "description": "A short-term loan for personal financial needs.",
+    "fee": 1500,
+    "interest_rate": 11.5,
+    "duration_months": 60,
+    "eligibility": {
+      "minimum_age": 21,
+      "maximum_age": 60,
+      "minimum_income": 20000,
+      "employment_required": true,
+      "credit_score_required": 700
+    }
+  },
+  {
+    "id": 2,
+    "service_name": "Home Loan",
+    "description": "A long-term loan for purchasing or constructing a residential property.",
+    "fee": 5000,
+    "interest_rate": 8.5,
+    "duration_months": 240,
+    "eligibility": {
+      "minimum_age": 21,
+      "maximum_age": 65,
+      "minimum_income": 30000,
+      "employment_required": true,
+      "credit_score_required": 700
+    }
+  },
+  {
+    "id": 3,
+    "service_name": "Car Loan",
+    "description": "A loan facility for purchasing a new or used car.",
+    "fee": 3500,
+    "interest_rate": 9.2,
+    "duration_months": 84,
+    "eligibility": {
+      "minimum_age": 21,
+      "maximum_age": 60,
+      "minimum_income": 25000,
+      "employment_required": true,
+      "credit_score_required": 680
+    }
+  },
+  {
+    "id": 4,
+    "service_name": "Education Loan",
+    "description": "A loan facility to finance higher education and related expenses.",
+    "fee": 2000,
+    "interest_rate": 8.9,
+    "duration_months": 120,
+    "eligibility": {
+      "minimum_age": 18,
+      "maximum_age": 35,
+      "minimum_income": 15000,
+      "employment_required": false,
+      "credit_score_required": 650
+    }
+  }
+  ,
+  {
+    "id": 5,
+    "service_name": "Health Insurance",
+    "description": "Insurance coverage for hospitalization and eligible medical expenses.",
+    "fee": 3000,
+    "coverage_amount": 500000,
+    "duration_months": 12,
+    "eligibility": {
+      "minimum_age": 18,
+      "maximum_age": 65,
+      "minimum_income": 15000,
+      "employment_required": false,
+      "credit_score_required": null
+    }
+  },
+  {
+    "id": 6,
+    "service_name": "Life Insurance",
+    "description": "Financial protection for the policyholder's family in case of death.",
+    "fee": 4500,
+    "coverage_amount": 1000000,
+    "duration_months": 12,
+    "eligibility": {
+      "minimum_age": 18,
+      "maximum_age": 60,
+      "minimum_income": 15000,
+      "employment_required": false,
+      "credit_score_required": null
+    }
+  },
+  {
+    "id": 7,
+    "service_name": "Credit Card",
+    "description": "A payment card that allows customers to make purchases using a predefined credit limit.",
+    "fee": 750,
+    "annual_fee": 750,
+    "duration_months": 12,
+    "eligibility": {
+      "minimum_age": 21,
+      "maximum_age": 60,
+      "minimum_income": 25000,
+      "employment_required": true,
+      "credit_score_required": 700
+    }
+  },
+  {
+    "id": 8,
+    "service_name": "Debit Card",
+    "description": "A card linked directly to a customer's bank account for payments and withdrawals.",
+    "fee": 300,
+    "annual_fee": 300,
+    "duration_months": 12,
+    "eligibility": {
+      "minimum_age": 18,
+      "maximum_age": 75,
+      "minimum_income": 0,
+      "employment_required": false,
+      "credit_score_required": null
+    }
+  }
+]
