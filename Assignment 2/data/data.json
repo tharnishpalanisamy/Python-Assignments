@@ -58,37 +58,6 @@
       "employment_required": false,
       "credit_score_required": 650
     }
-  }
-  ,
-  {
-    "id": 5,
-    "service_name": "Health Insurance",
-    "description": "Insurance coverage for hospitalization and eligible medical expenses.",
-    "fee": 3000,
-    "coverage_amount": 500000,
-    "duration_months": 12,
-    "eligibility": {
-      "minimum_age": 18,
-      "maximum_age": 65,
-      "minimum_income": 15000,
-      "employment_required": false,
-      "credit_score_required": null
-    }
-  },
-  {
-    "id": 6,
-    "service_name": "Life Insurance",
-    "description": "Financial protection for the policyholder's family in case of death.",
-    "fee": 4500,
-    "coverage_amount": 1000000,
-    "duration_months": 12,
-    "eligibility": {
-      "minimum_age": 18,
-      "maximum_age": 60,
-      "minimum_income": 15000,
-      "employment_required": false,
-      "credit_score_required": null
-    }
   },
   {
     "id": 7,

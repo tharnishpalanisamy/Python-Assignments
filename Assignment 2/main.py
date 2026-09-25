@@ -63,27 +63,52 @@ while True :
                 print('Please enter the following details ' ) 
 
                 try:
-                    id : int = int(input('Enter your unique Id : ')) 
-                    name : str = input('Enter your Name : ' )  
-                    age : int = int(input('Enter your age : '))  
-                    employed : int = int(input('Enter 1 for employed , 0 for otherwsie : ') ) 
-                    income:float = float(input('Enter your Income : '))  
-                    loan_amount:float = float(input('Enter the amount you a=want to borrow : '))
-                    credit_score : int = int(input('Enter your Credit Score : '))  
-                    loan_data = data[loan_choice-1] 
-                except ValueError :
-                    print("You have entered Invalid value , Please try again !") 
+                    id: int = int(input('Enter your unique Id : '))
+
+                    check_user = check_user_exists(id)
+
+                    if check_user is not None:
+                        print(f"Welcome Back {check_user['name']}")
+                    else:
+                        name: str = input('Enter your Name : ')
+                        age: int = int(input('Enter your age: '))
+                        employed: int = int(input('Enter 1 for employed, 0 for otherwise: '))
+                        income: float = float(input('Enter your Income: '))
+                        credit_score: int = int(input('Enter your Credit Score: '))
+
+                    loan_amount: float = float(
+                        input('Enter the amount you want to borrow: ')
+                    )
+
+                    loan_data = data[loan_choice - 1] 
+                        
+                except ValueError as e:
+                    print("ERROR:", e)
+                    continue
 
                 else : 
-                    user_data : dict = { 
-                        'id' : id , 
-                        'name' : name , 
-                        'age' : age , 
-                        'employed' : employed , 
-                        'income' : income , 
-                        'credit_score' : credit_score  ,
-                        'loan_amount' : loan_amount
-                    }
+
+                    if not check_user : 
+                        user_data : dict = { 
+                            'id' : id , 
+                            'name' : name , 
+                            'age' : age , 
+                            'employed' : employed , 
+                            'income' : income , 
+                            'credit_score' : credit_score  ,
+                            'loan_amount' : loan_amount
+                        } 
+                    else : 
+                        user_data:dict = {
+                            'id' : id , 
+                            'name' : check_user['name'] , 
+                            'age' : check_user['age'] , 
+                            'employed' : check_user['employed'] , 
+                            'income' : check_user['income'] ,
+                            'credit_score' : check_user['credit_score'] ,
+                            'loan_amount' : loan_amount
+
+                        }
                     eligible = process_loan(
                         loan_type = loan_choice , 
                         user_data = user_data , 
@@ -134,7 +159,8 @@ while True :
                                         'name': name,
                                         'age': age,
                                         'income': income,
-                                        'employed': employed,
+                                        'employed': employed, 
+                                        'credit_score' : credit_score ,
                                         'history': [
                                             f"Took a ${loan_amount} {loan_data['service_name']} "
                                             f"with a duration of {loan_data['duration_months']} months"
