@@ -10,3 +10,5 @@ USER_PATH = Path(os.getenv(
 SERVICE_PATH = Path(os.getenv(
     'SERVICE_PATH'
 ))
+
+PASSWORD = os.getenv("PASSWORD")

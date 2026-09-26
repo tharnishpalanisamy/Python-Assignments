@@ -1,6 +1,6 @@
 from pathlib import Path 
 import json
-from utilities import calculate_monthly_premium, process_insurance, process_loan, calculate_monthly_emi 
+from Modules.utilities import calculate_monthly_premium, process_insurance, process_loan, calculate_monthly_emi 
 from datetime import datetime 
 from config import USER_PATH , SERVICE_PATH
 
