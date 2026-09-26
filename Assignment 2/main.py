@@ -1,14 +1,13 @@
 from pathlib import Path 
 import json
-from utilities import calculate_monthly_premium, process_insurance, process_loan, calculate_monthly_emi, check_user_exists 
+from utilities import calculate_monthly_premium, process_insurance, process_loan, calculate_monthly_emi 
 from datetime import datetime 
+from config import USER_PATH , SERVICE_PATH
 
-data_path : Path = Path('./data/data.json')    
 
-with data_path.open('r') as file:
+with SERVICE_PATH.open('r') as file:
     service_data: list[dict] = json.load(file)
 
-user_path : Path = Path('./data/enrolled.json')
 
 print('Welcome To our System !') 
 
@@ -53,9 +52,8 @@ while True:
                 if loan_input in [1,2,3,4] :
                     loan_data = service_data[loan_input - 1] 
                     print(f'You have selected {loan_data["service_name"]} !')
-                    with user_path.open('r') as file:
+                    with USER_PATH.open('r') as file:
                         all_users: list[dict] = json.load(file) 
-                        print(all_users) 
 
                         existing_user = None 
                         user_found = False 
@@ -68,7 +66,6 @@ while True:
                                 user_found = True 
 
                         if user_found : 
-                            print('Welcome back !') 
                             print(f"Welcome Back {existing_user['name']} ! ")  
                             user = existing_user 
                         else : 
@@ -130,21 +127,20 @@ while True:
                             user['services'].append(loan_data['service_name']) 
                             user['history'].append(f"Applied for {loan_data['service_name']} of amount {loan_amount} with EMI {emi:.2f} at interest rate {loan_data['interest_rate']} % for duration of {loan_data['duration_months']} months.") 
 
-                            with user_path.open('w') as file:
+                            with USER_PATH.open('w') as file:
                                 json.dump(all_users, file, indent=4)
 
 
                         else : 
                             print('You have chosen not to proceed with the loan !') 
 
-                        with user_path.open('w') as file:
+                        with USER_PATH.open('w') as file:
                             json.dump(all_users, file, indent=4) 
                             break 
                 elif loan_input == 5 : 
                     print('You have selected to pay EMI !')
-                    with user_path.open('r') as file:
+                    with USER_PATH.open('r') as file:
                         all_users: list[dict] = json.load(file) 
-                        print(all_users) 
 
                         existing_user = None 
                         user_found = False 
@@ -170,8 +166,8 @@ while True:
                         print('Your Active Loans are as follows : ') 
                         for loan in user['loans'] :
                             print(
-                                f"Loan ID : {loan['loan_id']} , Loan Type : {loan['loan_type']} , \n"
-                                f"Loan Amount : {loan['loan_amount']} , EMI : {loan['emi']:.2f} , \n"
+                                f"Loan ID : {loan['loan_id']} , Loan Type : {loan['loan_type']} , "
+                                f"Loan Amount : {loan['loan_amount']} , EMI : {loan['emi']:.2f} , "
                                 f"Interest Rate : {loan['interest_rate']} % , Duration : {loan['duration_months']} months "
                                   ) 
 
@@ -210,7 +206,7 @@ while True:
                             selected_loan['status'] = 'closed' 
                             print(f"Congratulations ! You have completed your {selected_loan['loan_type']} !")
 
-                        with user_path.open('w') as file:
+                        with USER_PATH.open('w') as file:
                             json.dump(all_users, file, indent=4) 
                             break
 
@@ -247,7 +243,7 @@ while True:
                 insurance_data = service_data[insurance_input + 3] 
 
                 print(f'You have selected {insurance_data["service_name"]} !')
-                with user_path.open('r') as file:
+                with USER_PATH.open('r') as file:
                     all_users: list[dict] = json.load(file) 
                     print(all_users) 
 
@@ -319,7 +315,7 @@ while True:
                         user['services'].append(insurance_data['service_name']) 
                         user['history'].append(f"Applied for {insurance_data['service_name']} of coverage amount {coverage_amount} with monthly premium {monthly_premium:.2f} at annual premium rate {insurance_data['annual_premium_rate']} % for duration of {insurance_data['duration_months']} months.") 
 
-                        with user_path.open('w') as file:
+                        with USER_PATH.open('w') as file:
                             json.dump(all_users, file, indent=4)
                     else : 
                         print('You have chosen not to proceed with the insurance !')
