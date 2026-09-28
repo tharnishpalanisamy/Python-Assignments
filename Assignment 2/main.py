@@ -8,6 +8,7 @@ import random
 from Modules.models.Loan import Loan  
 from Modules.models.User import User 
 from Modules.services.LoanProcessor import LoanProcessor 
+from Modules.services.UserRepository import UserRepository 
 
 
 with SERVICE_PATH.open('r') as file:
@@ -51,20 +52,6 @@ while True:
                 if loan_input not in [1, 2, 3, 4, 5] :
                     raise ValueError('Invalid input, please try again !') 
 
-    #             {
-    # "id": 1,
-    # "service_name": "Personal Loan",
-    # "description": "A short-term loan for personal financial needs.",
-    # "fee": 1500,
-    # "interest_rate": 11.5,
-    # "duration_months": 60,
-    # "eligibility": {
-    #   "minimum_age": 21,
-    #   "maximum_age": 60,
-    #   "minimum_income": 20000,
-    #   "employment_required": true,
-    #   "credit_score_required": 700
-    # }
                 
                 if loan_input in [1,2,3,4] :
                     loan = service_data[loan_input - 1] 
@@ -78,254 +65,170 @@ while True:
 
                     
                     print(f'You have selected {loan_data.service_name} !')
-                    with USER_PATH.open('r') as file:
-                        all_users: list[dict] = json.load(file) 
 
-                        existing_user = None 
-                        user_found = False 
+                    id:int = int(input('Please enter your ID : ')) 
 
-                        id:int = int(input('Please enter your ID : ')) 
+                    user_repository = UserRepository() 
+                    user = user_repository.find_user(id)   
 
-                        for user in all_users :
-                            if user['id'] == id : 
-                                existing_user = User(
-                                    id = user['id'] , 
-                                    name = user['name'] ,
-                                    age = user['age'] ,
-                                    email=user['email'],
-                                    employed = user['employed'] ,
-                                    income = user['income'] ,
-                                    credit_score = user['credit_score'] ,
-                                    history = user['history'] ,
-                                    services = user['services'] ,
-                                    loans = user['loans']
-                                ) 
+                    if user : 
+                        print(f"Welcome Back {user.name} ! ")  
+                    else : 
+                        new_user = True 
+                        user = user_repository.create_user(id)
+                        user_repository.save_user(user) 
 
-                                user_found = True 
+                    loan_amount:float = float(input('Please enter the loan amount you want to apply for : ')) 
 
-                        if user_found : 
-                            print(f"Welcome Back {existing_user.name} ! ")  
-                            user = existing_user 
-                        else : 
-                            print('You are a new user !') 
-                            name:str = input('Please enter your name : ') 
-                            email:str = input('enter your email : ') 
-                            age:int = int(input('Please enter your age : ')) 
-                            employed:str = input('Are you employed ? (1/0) : ') 
-                            income:float = float(input('Please enter your income : ')) 
-                            credit_score:int = int(input('Please enter your credit score : '))  
+                    loan_processor = LoanProcessor() 
 
+                    loan_processor.display_eligibility(loan_data=loan_data , user_data=user , loan_amount=loan_amount) 
+                    loan_eligibility:bool = loan_processor.check_eligibility(
+                        loan_data=loan_data , user_data=user , loan_amount=loan_amount
+                    )
 
-                            user = {
-                                
-                                'id' : id, 
-                                'name' : name, 
-                                'email':email , 
-                                'age' : age, 
-                                'employed' : employed, 
-                                'income' : income, 
-                                'credit_score' : credit_score , 
-                                'history' : [] , 
-                                'services' : [] , 
-                                'loans' : [] , 
-                                'insurance' : [] ,
-                                'cards' : []
-                            }
+                    if not loan_eligibility : 
+                        print('Sorry, you are not eligible for this loan !') 
+                        continue
 
-                            all_users.append(user)  
+                    emi:float = loan_processor.calculate_emi(
+                        loan_amount=loan_amount , 
+                        interest=loan_data.interest_rate , 
+                        duration=loan_data.duration_months
+                    ) 
 
-                            user = User(
-                                id = id, 
-                                name = name, 
-                                email=email , 
-                                age = age, 
-                                employed = employed, 
-                                income = income, 
-                                credit_score = credit_score , 
-                                history = [] , 
-                                services = [] , 
-                                loans = [] , 
-                            )
+                    print('\nYou are eligible for this loan ! Further Details are as follows : ')  
+                    print(f"Loan Amount : {loan_amount} ")
+                    print(f"Interest Rate : {loan_data.interest_rate} % ")
+                    print(f"Duration : {loan_data.duration_months} months ")
+                    print(f"Monthly EMI : {emi:.2f} \n") 
 
+                    loan_choice:int = int(input('Do you want to proceed with the loan ? (1/0) : ') )
 
-                        loan_amount:float = float(input('Please enter the loan amount you want to apply for : ')) 
+                    if(loan_choice == 1 ) : 
 
-                        loan_processor = LoanProcessor() 
+                        email_sender = EmailSender() 
+                        otp:int = email_sender.generate_otp()  
+                        otp_sent = email_sender.send_otp(user.email , otp) 
 
-                        loan_processor.display_eligibility(loan_data=loan_data , user_data=user , loan_amount=loan_amount) 
-                        loan_eligibility:bool = loan_processor.check_eligibility(
-                            loan_data=loan_data , user_data=user , loan_amount=loan_amount
-                        )
+                        if not otp_sent :
+                            print('Please try again !') 
+                            continue 
+                        print(f'Otp successfullly sent to {user.email}') 
 
-                        if not loan_eligibility : 
-                            print('Sorry, you are not eligible for this loan !') 
-                            continue
+                        attempts = 3 
+                        otp_verified = False 
+                        while attempts > 0 : 
+                            confirm_otp = int(input('Please enter the Otp received : ') ) 
 
-                        emi:float = loan_processor.calculate_emi(
-                            loan_amount=loan_amount , 
-                            interest=loan_data.interest_rate , 
-                            duration=loan_data.duration_months
-                        ) 
+                            if otp != confirm_otp :
+                                attempts -= 1 
+                                if attempts == 0 : 
+                                    print('You have used all the chances please try again later !' ) 
+                                    break 
+                                print(f"Incorrect OTP ! you have {attempts} attempts remainigs") 
+                            else :
+                                otp_verified = True 
+                                break  
 
-                        print('\nYou are eligible for this loan ! Further Details are as follows : ')  
-                        print(f"Loan Amount : {loan_amount} ")
-                        print(f"Interest Rate : {loan_data.interest_rate} % ")
-                        print(f"Duration : {loan_data.duration_months} months ")
-                        print(f"Monthly EMI : {emi:.2f} \n") 
-
-                        loan_choice:int = int(input('Do you want to proceed with the loan ? (1/0) : ') )
-
-                        if(loan_choice == 1 ) : 
-
-                            email_sender = EmailSender() 
-                            otp:int = email_sender.generate_otp()  
-                            otp_sent = email_sender.send_otp(user.email , otp) 
-
-                            if not otp_sent :
-                                print('Please try again !') 
-                                continue 
-                            print(f'Otp successfullly sent to {user.email}') 
-
-                            attempts = 3 
-                            otp_verified = False 
-                            while attempts > 0 : 
-                                confirm_otp = int(input('Please enter the Otp received : ') ) 
-
-                                if otp != confirm_otp :
-                                    attempts -= 1 
-                                    if attempts == 0 : 
-                                        print('You have used all the chances please try again later !' ) 
-                                        break 
-                                    print(f"Incorrect OTP ! you have {attempts} attempts remainigs") 
-                                else :
-                                    otp_verified = True 
-                                    break  
-
-                            if not otp_verified :
-                                break 
-
-                            loan_approval = loan_processor.approve_loan(
-                                loan_data=loan_data , 
-                                user_data=user , 
-                                loan_amount=loan_amount
-                            ) 
-
-                            if loan_approval :
-                                print(f'Congradulations your loan of {loan_amount} has been sanctioned ! ' ) 
-                                
-                            with USER_PATH.open('w') as file:
-                                json.dump(all_users, file, indent=4)
-
-
-                        else : 
-                            print('You have chosen not to proceed with the loan !') 
-
-                        with USER_PATH.open('w') as file:
-                            json.dump(all_users, file, indent=4) 
+                        if not otp_verified :
                             break 
 
+                        loan_approval = loan_processor.approve_loan(
+                            loan_data=loan_data , 
+                            user_data=user , 
+                            loan_amount=loan_amount
+                        ) 
 
+                        if loan_approval :
+                            print(f'Congradulations your loan of {loan_amount} has been sanctioned ! ' ) 
+                            
+                            user_repository.update_user(user)
 
+                    else : 
+                        print('You have chosen not to proceed with the loan !') 
 
+                    
+                    break 
 
                         
                 elif loan_input == 5 : 
                     print('You have selected to pay EMI !')
-                    with USER_PATH.open('r') as file:
-                        all_users: list[dict] = json.load(file) 
 
-                        existing_user = None 
-                        user_found = False 
+                    id:int = int(input('Please enter your ID : ')) 
 
-                        id:int = int(input('Please enter your ID : ')) 
+                    user_repository = UserRepository() 
+                    user = user_repository.find_user(id) 
 
-                        for user in all_users :
-                            if user['id'] == id : 
-                                existing_user = existing_user = User(
-                                                            id = user['id'] , 
-                                                            name = user['name'] ,
-                                                            age = user['age'] ,
-                                                            email=user['email'],
-                                                            employed = user['employed'] ,
-                                                            income = user['income'] ,
-                                                            credit_score = user['credit_score'] ,
-                                                            history = user['history'] ,
-                                                            services = user['services'] ,
-                                                            loans = user['loans']
-                                                        )  
-                                user_found = True 
+                    if not user : 
+                        print('User not found ! Please apply for a loan first !') 
+                        continue
 
-                        if not user_found : 
-                            print('User not found ! Please apply for a loan first !') 
-                            continue
+                    print(f"Welcome Back {user.name} ! ")  
 
-                        print(f"Welcome Back {existing_user.name} ! ")  
-                        user = existing_user 
+                    if len(user.loans) == 0 : 
+                        print('You have no active loans ! Please apply for a loan first !') 
+                        continue
 
-                        if len(user.loans) == 0 : 
-                            print('You have no active loans ! Please apply for a loan first !') 
-                            continue
+                    print('Your Active Loans are as follows : ') 
+                    for loan in user.loans : 
+                        if loan['status'] == 'active' : 
+                            print(
+                                f"Loan ID : {loan['loan_id']} , Loan Type : {loan['loan_type']} , "
+                                f"Loan Amount : {loan['loan_amount']} , EMI : {loan['emi']:.2f} , "
+                                f"Interest Rate : {loan['interest_rate']} % , Duration : {loan['duration_months']} months "
+                                ) 
 
-                        print('Your Active Loans are as follows : ') 
-                        for loan in user.loans : 
-                            if loan['status'] == 'active' : 
-                                print(
-                                    f"Loan ID : {loan['loan_id']} , Loan Type : {loan['loan_type']} , "
-                                    f"Loan Amount : {loan['loan_amount']} , EMI : {loan['emi']:.2f} , "
-                                    f"Interest Rate : {loan['interest_rate']} % , Duration : {loan['duration_months']} months "
-                                    ) 
+                    loan_id:int = int(input('Please enter the Loan ID you want to pay EMI for : ')) 
 
-                        loan_id:int = int(input('Please enter the Loan ID you want to pay EMI for : ')) 
+                    selected_loan = None 
+                    loan_found = False 
 
-                        selected_loan = None 
-                        loan_found = False 
+                    for loan in user.loans :
+                        if loan['loan_id'] == loan_id : 
+                            selected_loan = loan 
+                            loan_found = True 
 
-                        for loan in user.loans :
-                            if loan['loan_id'] == loan_id : 
-                                selected_loan = loan 
-                                loan_found = True 
+                    if not loan_found : 
+                        print('Loan not found ! Please try again !') 
+                        continue
 
-                        if not loan_found : 
-                            print('Loan not found ! Please try again !') 
-                            continue
+                    print(f"You have selected Loan ID : {selected_loan['loan_id']} , Loan Type : {selected_loan['loan_type']} , Loan Amount : {selected_loan['loan_amount']} , EMI : {selected_loan['emi']:.2f} , Interest Rate : {selected_loan['interest_rate']} % , Duration : {selected_loan['duration_months']} months ") 
 
-                        print(f"You have selected Loan ID : {selected_loan['loan_id']} , Loan Type : {selected_loan['loan_type']} , Loan Amount : {selected_loan['loan_amount']} , EMI : {selected_loan['emi']:.2f} , Interest Rate : {selected_loan['interest_rate']} % , Duration : {selected_loan['duration_months']} months ") 
+                    emi_payment:float = float(input('Please enter the EMI amount you want to pay : ')) 
 
-                        emi_payment:float = float(input('Please enter the EMI amount you want to pay : ')) 
-
-                        if emi_payment < selected_loan['emi'] :
-                            print(f"EMI amount is less than the required EMI of {selected_loan['emi']:.2f} . Please pay the full EMI amount !") 
-                            continue
+                    if emi_payment < selected_loan['emi'] :
+                        print(f"EMI amount is less than the required EMI of {selected_loan['emi']:.2f} . Please pay the full EMI amount !") 
+                        continue
 
 
-                        print(f"EMI of {emi_payment:.2f} paid successfully for Loan ID : {selected_loan['loan_id']} , Loan Type : {selected_loan['loan_type']} !")
-                        selected_loan['payment_history'].append({
-                            'loan_id' : selected_loan['loan_id'] ,
-                            'loan_type' : selected_loan['loan_type'] ,
-                            "amount": emi_payment,
-                            "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                        })
+                    print(f"EMI of {emi_payment:.2f} paid successfully for Loan ID : {selected_loan['loan_id']} , Loan Type : {selected_loan['loan_type']} !")
+                    selected_loan['payment_history'].append({
+                        'loan_id' : selected_loan['loan_id'] ,
+                        'loan_type' : selected_loan['loan_type'] ,
+                        "amount": emi_payment,
+                        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    })
 
-                        balance = emi_payment -  selected_loan['emi'] 
-                        selected_loan['loan_amount'] -= balance 
+                    balance = emi_payment -  selected_loan['emi'] 
+                    selected_loan['loan_amount'] -= balance 
 
-                        selected_loan['duration_months'] -= 1 
+                    selected_loan['duration_months'] -= 1 
 
-                        if selected_loan['duration_months'] == 0 :
-                            selected_loan['status'] = 'closed' 
-                            print(f"Congratulations ! You have completed your {selected_loan['loan_type']} !")
+                    if selected_loan['duration_months'] == 0 :
+                        selected_loan['status'] = 'closed' 
+                        print(f"Congratulations ! You have completed your {selected_loan['loan_type']} !")
 
-                        if selected_loan['loan_amount'] <= 0 :
-                            selected_loan['status'] = 'closed' 
-                            print(f"Congratulations ! You have completed your {selected_loan['loan_type']} !") 
+                    if selected_loan['loan_amount'] <= 0 :
+                        selected_loan['status'] = 'closed' 
+                        print(f"Congratulations ! You have completed your {selected_loan['loan_type']} !") 
 
-                        if selected_loan['loan_amount'] < 0 : 
-                            print(f'You have paid {abs(selected_loan['loan_amount'])} Extra')
-                            print(f"{abs(selected_loan['loan_amount'])} has been refunded ") 
+                    if selected_loan['loan_amount'] < 0 : 
+                        print(f'You have paid {abs(selected_loan['loan_amount'])} Extra')
+                        print(f"{abs(selected_loan['loan_amount'])} has been refunded ") 
 
-                        with USER_PATH.open('w') as file:
-                            json.dump(all_users, file, indent=4) 
-                            break
+                    user_repository.update_user(user)
+                    break
 
 
             except ValueError : 
