@@ -1,50 +1,72 @@
 [
     {
-        "id": 77,
-        "name": "Sastha",
-        "age": 21,
+        "id": 1,
+        "name": "1",
+        "email": "sgstzz4@gmail.com",
+        "age": 25,
         "employed": "1",
-        "income": 350000.0,
-        "credit_score": 8667,
+        "income": 100000.0,
+        "credit_score": 1000,
         "history": [
-            "Applied for Health Insurance of coverage amount 1500000.0 with monthly premium 125033.86 at annual premium rate 0.05 % for duration of 12 months.",
-            "Applied for Personal Loan of amount 500000.0 with EMI 10996.30 at interest rate 11.5 % for duration of 60 months."
+            "Applied for Personal Loan of amount 100000.0 with EMI 2199.26 at interest rate 11.5 % for duration of 60 months.",
+            "Applied for Personal Loan of amount 200000.0 with EMI 4398.52 at interest rate 11.5 % for duration of 60 months."
         ],
         "services": [
-            "Health Insurance",
+            "Personal Loan",
             "Personal Loan"
         ],
         "loans": [
             {
                 "loan_id": 1,
                 "loan_type": "Personal Loan",
-                "loan_amount": 500000.0,
-                "emi": 10996.30368743525,
+                "loan_amount": 100000.0,
+                "emi": 2199.26073748705,
                 "interest_rate": 11.5,
-                "duration_months": 59,
+                "duration_months": 60,
                 "status": "active",
-                "payment_history": [
-                    {
-                        "loan_id": 1,
-                        "loan_type": "Personal Loan",
-                        "amount": 24598.0,
-                        "date": "2026-09-26 10:28:21"
-                    }
-                ]
-            }
-        ],
-        "insurance": [
+                "payment_history": []
+            },
             {
-                "insurance_id": 1,
-                "insurance_type": "Health Insurance",
-                "coverage_amount": 1500000.0,
-                "monthly_premium": 125033.85675253625,
-                "annual_premium_rate": 0.05,
-                "duration_months": 12,
+                "loan_id": 2,
+                "loan_type": "Personal Loan",
+                "loan_amount": 200000.0,
+                "emi": 4398.5214749741,
+                "interest_rate": 11.5,
+                "duration_months": 60,
                 "status": "active",
                 "payment_history": []
             }
         ],
+        "insurance": [],
+        "cards": []
+    },
+    {
+        "id": 3,
+        "name": "sastha",
+        "email": "231ca154@gmail.com",
+        "age": 23,
+        "employed": "1",
+        "income": 100000.0,
+        "credit_score": 1000,
+        "history": [
+            "Applied for Car Loan of amount 2000000.0 with EMI 32381.53 at interest rate 9.2 % for duration of 84 months."
+        ],
+        "services": [
+            "Car Loan"
+        ],
+        "loans": [
+            {
+                "loan_id": 1,
+                "loan_type": "Car Loan",
+                "loan_amount": 2000000.0,
+                "emi": 32381.525999498375,
+                "interest_rate": 9.2,
+                "duration_months": 84,
+                "status": "active",
+                "payment_history": []
+            }
+        ],
+        "insurance": [],
         "cards": []
     }
 ]

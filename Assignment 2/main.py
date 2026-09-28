@@ -2,7 +2,10 @@ from pathlib import Path
 import json
 from Modules.utilities import calculate_monthly_premium, process_insurance, process_loan, calculate_monthly_emi 
 from datetime import datetime 
-from config import USER_PATH , SERVICE_PATH
+from config import USER_PATH , SERVICE_PATH 
+from mail import send_otp 
+import random 
+from Modules.models.Loan import Loan 
 
 
 with SERVICE_PATH.open('r') as file:
@@ -47,11 +50,33 @@ while True:
                 if loan_input not in [1, 2, 3, 4, 5] :
                     raise ValueError('Invalid input, please try again !') 
 
-
+    #             {
+    # "id": 1,
+    # "service_name": "Personal Loan",
+    # "description": "A short-term loan for personal financial needs.",
+    # "fee": 1500,
+    # "interest_rate": 11.5,
+    # "duration_months": 60,
+    # "eligibility": {
+    #   "minimum_age": 21,
+    #   "maximum_age": 60,
+    #   "minimum_income": 20000,
+    #   "employment_required": true,
+    #   "credit_score_required": 700
+    # }
                 
                 if loan_input in [1,2,3,4] :
-                    loan_data = service_data[loan_input - 1] 
-                    print(f'You have selected {loan_data["service_name"]} !')
+                    loan = service_data[loan_input - 1] 
+                    loan_data = Loan(
+                        id = loan['id'] , 
+                        service_name=loan['service_name'] , 
+                        interest_rate=loan['interest_rate'] ,
+                        duration_months=loan['duration_months'] ,
+                        eligibility=loan['eligibility']
+                        )
+
+                    
+                    print(f'You have selected {loan_data.service_name} !')
                     with USER_PATH.open('r') as file:
                         all_users: list[dict] = json.load(file) 
 
@@ -71,15 +96,18 @@ while True:
                         else : 
                             print('You are a new user !') 
                             name:str = input('Please enter your name : ') 
+                            email:str = input('enter your email : ') 
                             age:int = int(input('Please enter your age : ')) 
                             employed:str = input('Are you employed ? (1/0) : ') 
                             income:float = float(input('Please enter your income : ')) 
-                            credit_score:int = int(input('Please enter your credit score : ')) 
+                            credit_score:int = int(input('Please enter your credit score : '))  
+
 
                             user = {
                                 
                                 'id' : id, 
                                 'name' : name, 
+                                'email':email , 
                                 'age' : age, 
                                 'employed' : employed, 
                                 'income' : income, 
@@ -113,6 +141,27 @@ while True:
                         loan_choice:int = int(input('Do you want to proceed with the loan ? (1/0) : ') )
 
                         if(loan_choice == 1 ) : 
+
+                            otp:int = random.randint(1000 , 10000) 
+                            otp_sent = send_otp(user['email'] , otp) 
+
+                            if not otp_sent :
+                                print('Please try again !') 
+                                continue 
+                            print(f'Otp successfullly sent to {user['email']}') 
+
+                            attempts = 3 
+
+                            while attempts > 0 : 
+                                confirm_otp = int(input('Please enter the Otp received : ') ) 
+
+                                if otp != confirm_otp :
+                                    attempts -= 1 
+                                    print(f"Incorrect OTP ! you have {attempts} attempts remainigs") 
+                                else :
+                                    break  
+
+
                             print('Congratulations, your loan has been approved !') 
                             user['loans'].append({
                                 'loan_id' : len(user['loans']) + 1 ,
