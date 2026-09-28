@@ -9,9 +9,11 @@
         "credit_score": 1000,
         "history": [
             "Applied for Personal Loan of amount 100000.0 with EMI 2199.26 at interest rate 11.5 % for duration of 60 months.",
-            "Applied for Personal Loan of amount 200000.0 with EMI 4398.52 at interest rate 11.5 % for duration of 60 months."
+            "Applied for Personal Loan of amount 200000.0 with EMI 4398.52 at interest rate 11.5 % for duration of 60 months.",
+            "Applied for Personal Loan of amount 100000.0 with EMI 2199.26 at interest rate 11.5 % for duration of 60 months."
         ],
         "services": [
+            "Personal Loan",
             "Personal Loan",
             "Personal Loan"
         ],
@@ -19,18 +21,47 @@
             {
                 "loan_id": 1,
                 "loan_type": "Personal Loan",
-                "loan_amount": 100000.0,
+                "loan_amount": -601.4785250258933,
                 "emi": 2199.26073748705,
                 "interest_rate": 11.5,
-                "duration_months": 60,
-                "status": "active",
-                "payment_history": []
+                "duration_months": 57,
+                "status": "closed",
+                "payment_history": [
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Personal Loan",
+                        "amount": 5000.0,
+                        "date": "2026-09-28 17:15:47"
+                    },
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Personal Loan",
+                        "amount": 100000.0,
+                        "date": "2026-09-28 17:27:59"
+                    },
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Personal Loan",
+                        "amount": 5000.0,
+                        "date": "2026-09-28 17:28:24"
+                    }
+                ]
             },
             {
                 "loan_id": 2,
                 "loan_type": "Personal Loan",
                 "loan_amount": 200000.0,
                 "emi": 4398.5214749741,
+                "interest_rate": 11.5,
+                "duration_months": 60,
+                "status": "active",
+                "payment_history": []
+            },
+            {
+                "loan_id": 3,
+                "loan_type": "Personal Loan",
+                "loan_amount": 100000.0,
+                "emi": 2199.26,
                 "interest_rate": 11.5,
                 "duration_months": 60,
                 "status": "active",
@@ -66,6 +97,34 @@
                 "payment_history": []
             }
         ],
+        "insurance": [],
+        "cards": []
+    },
+    {
+        "id": 6,
+        "name": "tharnish",
+        "email": "streetdogmanagement@gmail.com",
+        "age": 25,
+        "employed": "1",
+        "income": 100000.0,
+        "credit_score": 1000,
+        "history": [],
+        "services": [],
+        "loans": [],
+        "insurance": [],
+        "cards": []
+    },
+    {
+        "id": 43,
+        "name": "tharnish",
+        "email": "tharnishpalanisamy007@gmail.com",
+        "age": 29,
+        "employed": "1",
+        "income": 100000.0,
+        "credit_score": 1000,
+        "history": [],
+        "services": [],
+        "loans": [],
         "insurance": [],
         "cards": []
     }

@@ -6,10 +6,11 @@ class LoanProcessor :
     def __init__(self): 
         self.eligibility = False  
 
-    def check_eligibility(self , loan_data:Loan , user_data:User , loan_amount:float) : 
+
+
+    def display_eligibility(self,loan_data:Loan , user_data:User , loan_amount:float ) ->None : 
 
         print(f'Eligibility Criteria for {loan_data.service_name} is Below : ') 
-        
         eligibility:dict = loan_data.eligibility 
         minimum_income = f"{math.ceil(loan_amount / 60 ) : .2f}"
     
@@ -17,17 +18,22 @@ class LoanProcessor :
             if field == 'minimum_income' : 
                 print(f"{field:<15} : {minimum_income} ")
                 continue
-            print(f"{field:<15} : {requirement} ")  
-    
+            print(f"{field:<15} : {requirement} ") 
+        print('\n')
+
+    def check_eligibility(self , loan_data:Loan , user_data:User , loan_amount:float) : 
+
+        eligibility:dict = loan_data.eligibility 
+        minimum_income = f"{math.ceil(loan_amount / 60 ) : .2f}"
         if (
-            eligibility.minimum_age <= user_data.age <= eligibility.maximum_age 
+            eligibility['minimum_age'] <= user_data.age <= eligibility['maximum_age'] 
             and 
             float(user_data.income) >= float(minimum_income)  
             and 
-            eligibility.credit_score_required <= user_data.credit_score 
+            eligibility['credit_score_required'] <= user_data.credit_score 
             and 
             (
-            (eligibility.employment_required and user_data.employed ) or (not eligibility.employment_required)
+            (eligibility['employment_required'] and user_data.employed ) or (not eligibility['employment_required'])
             )
         ) : 
             return True  
