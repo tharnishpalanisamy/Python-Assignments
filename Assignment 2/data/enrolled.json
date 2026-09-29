@@ -274,5 +274,17 @@
                 ]
             }
         ]
+    },
+    {
+        "id": 1004,
+        "name": "tharnish",
+        "email": "tharnishpalanisamy007@gmail.com",
+        "age": 25,
+        "employed": "1",
+        "income": 1.0,
+        "credit_score": 100,
+        "history": [],
+        "services": [],
+        "loans": []
     }
 ]

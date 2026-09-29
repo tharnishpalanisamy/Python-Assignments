@@ -2,7 +2,7 @@ from config import USER_PATH
 import json 
 from Modules.models.User import User  
 from dataclasses import asdict 
-
+from utilities import validate_email
 class UserRepository:
     def __init__(self) :
         self.user_path = USER_PATH 
@@ -13,7 +13,7 @@ class UserRepository:
             data = json.load(file)
             return data 
 
-    def create_user(self, user_id: int) -> User:
+    def create_user(self, user_id: int) -> User | None :
         print('You are a new User !') 
         name = input("Enter your name: ")
         email = input("Enter your email: ")
@@ -21,19 +21,21 @@ class UserRepository:
         employed = input("Are you employed? (1/0): ")
         income = float(input("Enter your income: "))
         credit_score = int(input("Enter your credit score: "))
-
-        return User(
-            id=user_id,
-            name=name,
-            email=email,
-            age=age,
-            employed=employed,
-            income=income,
-            credit_score=credit_score,
-            history=[],
-            services=[],
-            loans=[]
-        ) 
+        if validate_email(email=email) : 
+            return User(
+                id=user_id,
+                name=name,
+                email=email,
+                age=age,
+                employed=employed,
+                income=income,
+                credit_score=credit_score,
+                history=[],
+                services=[],
+                loans=[]
+            ) 
+        else:
+            return None 
 
     
     def find_user(self, user_id: int) -> User | None:
