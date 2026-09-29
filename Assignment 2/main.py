@@ -73,9 +73,9 @@ while True:
 
                     loan_processor = LoanProcessor() 
 
-                    loan_processor.display_eligibility(loan_data=loan_data , user_data=user , loan_amount=loan_amount) 
-                    loan_eligibility:bool = loan_processor.check_eligibility(
-                        loan_data=loan_data , user_data=user , loan_amount=loan_amount
+                    loan_data.display_eligibility(loan_amount=loan_amount) 
+                    loan_eligibility:bool = loan_data.check_eligibility(
+                        user_data=user , loan_amount=loan_amount
                     )
 
                     if not loan_eligibility : 
@@ -150,10 +150,7 @@ while True:
                         print('Loan not found ! Please try again !') 
                         continue
 
-                    print(f'You have selected Loan ID : {selected_loan.loan_id} ,'
-                        f'Loan Type : {selected_loan.loan_type} , Loan Amount : {selected_loan.loan_amount} , '
-                        f'EMI : {selected_loan.emi:.2f} , Interest Rate : {selected_loan.interest_rate} % , '
-                        f'Duration : {selected_loan.duration_months} months' )
+                    loan_processor.display_selected_loan(selected_loan)
 
                     emi_payment:float = float(input('Please enter the EMI amount you want to pay : ')) 
 

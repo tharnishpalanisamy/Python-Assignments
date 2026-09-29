@@ -9,13 +9,9 @@
         "credit_score": 1000,
         "history": [
             "Applied for Personal Loan of amount 100000.0 with EMI 2199.26 at interest rate 11.5 % for duration of 60 months.",
-            "Applied for Personal Loan of amount 200000.0 with EMI 4398.52 at interest rate 11.5 % for duration of 60 months.",
-            "Applied for Personal Loan of amount 100000.0 with EMI 2199.26 at interest rate 11.5 % for duration of 60 months.",
             "Applied for Personal Loan of amount 100000.0 with EMI 2199.26 at interest rate 11.5 % for duration of 60 months."
         ],
         "services": [
-            "Personal Loan",
-            "Personal Loan",
             "Personal Loan",
             "Personal Loan"
         ],
@@ -63,6 +59,12 @@
                         "loan_type": "Personal Loan",
                         "amount": 8500.0,
                         "date": "2026-09-29 15:58:34"
+                    },
+                    {
+                        "loan_id": 2,
+                        "loan_type": "Personal Loan",
+                        "amount": 10000.0,
+                        "date": "2026-09-29 16:18:41"
                     }
                 ]
             },
@@ -234,6 +236,33 @@
                 "emi": 5045.41,
                 "interest_rate": 8.9,
                 "duration_months": 120,
+                "status": "active",
+                "payment_history": []
+            }
+        ]
+    },
+    {
+        "id": 101,
+        "name": "tharnish",
+        "email": "tharnishpalanisamy007@gmail.com",
+        "age": 25,
+        "employed": "1",
+        "income": 150000.0,
+        "credit_score": 1000,
+        "history": [
+            "Applied for Home Loan of amount 1000000.0 with EMI 8678.23 at interest rate 8.5 % for duration of 240 months."
+        ],
+        "services": [
+            "Home Loan"
+        ],
+        "loans": [
+            {
+                "loan_id": 1,
+                "loan_type": "Home Loan",
+                "loan_amount": 1000000.0,
+                "emi": 8678.23,
+                "interest_rate": 8.5,
+                "duration_months": 240,
                 "status": "active",
                 "payment_history": []
             }
