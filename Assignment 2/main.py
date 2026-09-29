@@ -6,10 +6,8 @@ from Modules.services.LoanProcessor import LoanProcessor
 from Modules.services.LoanPaymentService import LoanPaymentService 
 from Modules.repositories.UserRepository import UserRepository 
 
-
 with SERVICE_PATH.open('r') as file:
     service_data: list[dict] = json.load(file)
-
 
 print('Welcome To our System !') 
 
@@ -116,10 +114,8 @@ while True:
                     else : 
                         print('You have chosen not to proceed with the loan !') 
 
-                    
                     break 
 
-                        
                 elif loan_input == 5 : 
                     print('You have selected to pay EMI !')
 
@@ -162,7 +158,6 @@ while True:
                     user_repository.update_user(user)
                     break
 
-
             except ValueError : 
                 print('Invalid input, please try again !') 
                 continue
@@ -170,7 +165,3 @@ while True:
             except Exception as e :
                 print(f"An error occurred: {e}") 
                 continue
-
-
-
-

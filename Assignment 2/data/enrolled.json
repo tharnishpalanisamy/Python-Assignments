@@ -264,7 +264,14 @@
                 "interest_rate": 8.5,
                 "duration_months": 240,
                 "status": "active",
-                "payment_history": []
+                "payment_history": [
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Home Loan",
+                        "amount": 100000.0,
+                        "date": "2026-09-29 16:31:30"
+                    }
+                ]
             }
         ]
     }
