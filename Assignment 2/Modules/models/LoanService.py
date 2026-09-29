@@ -1,12 +1,11 @@
 from dataclasses import dataclass 
 
 @dataclass
-class Loan:
+class LoanService:
     id: int
-    service_name: str
+    service_name: str 
     interest_rate: float
     duration_months: int
     eligibility: dict
-
 
 

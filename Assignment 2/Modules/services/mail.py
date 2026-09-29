@@ -12,6 +12,7 @@ class EmailSender:
 
     def generate_otp(self) ->int :
         return random.randint(1000 , 9999) 
+    
     def send_otp(self , receiver, otp): 
         try: 
             sender = 'tharnishpalanisamy3@gmail.com' 
@@ -54,5 +55,27 @@ class EmailSender:
             print('Otp failed') 
             print(e) 
             return False
+
+    def authenticate_user(self , receiver : str ) ->bool  :
+        otp = self.generate_otp() 
+
+        self.send_otp(receiver=receiver , otp=otp)  
+        print(f'Otp has been sent to {receiver}') 
+
+        attempts = 3 
+        while attempts > 0 :
+            user_otp : int = int(input('Enter the received Otp : ')) 
+
+            if user_otp != otp :
+                attempts -= 1 
+                print(f'Incorrect Otp ! {attempts} left') 
+            elif user_otp == otp :
+                return True 
+        return False 
+
+
+
+
+
 
         
