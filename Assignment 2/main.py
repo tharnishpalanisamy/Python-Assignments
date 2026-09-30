@@ -4,7 +4,8 @@ from Modules.services.mail import EmailSender
 from Modules.models.LoanService import LoanService  
 from Modules.services.LoanProcessor import LoanProcessor 
 from Modules.services.LoanPaymentService import LoanPaymentService 
-from Modules.repositories.UserRepository import UserRepository 
+from Modules.repositories.UserRepository import UserRepository  
+from Modules.Exception.exception import UserNotFoundException , InvalidEmailException,UserNotAuthenticatedException,LoanNotFoundException
 
 with SERVICE_PATH.open('r') as file:
     service_data: list[dict] = json.load(file)
@@ -59,13 +60,22 @@ while True:
                     id:int = int(input('Please enter your ID : ')) 
 
                     user_repository = UserRepository() 
-                    user = user_repository.find_user(id)   
 
-                    if user : 
-                        print(f"Welcome Back {user.name} ! ")  
+                    try : 
+                        user = user_repository.find(id)   
+                    except UserNotFoundException as error :
+                        try:
+                            user = user_repository.create_user(id)
+                            user_repository.save_user(user)  
+                        except ValueError as error :
+                            print(error) 
+                            continue 
+                        except InvalidEmailException as error : 
+                            print(error) 
+                            continue 
                     else : 
-                        user = user_repository.create_user(id)
-                        user_repository.save_user(user) 
+                        print(f"Welcome Back {user.name} ! ")  
+                    
 
                     loan_amount:float = float(input('Please enter the loan amount you want to apply for : ')) 
 
@@ -93,23 +103,22 @@ while True:
                     if(loan_choice == 1 ) : 
 
                         email_sender = EmailSender() 
+                        try : 
 
-                        user_authenticated = email_sender.authenticate_user(user.email) 
+                            user_authenticated = email_sender.authenticate_user(user.email) 
 
-                        if not user_authenticated :
-                            print('Please try again later')
+                            loan_approval = loan_processor.approve_loan(
+                                loan_data=loan_data , 
+                                user_data=user , 
+                                loan_amount=loan_amount
+                            ) 
+                            if loan_approval :
+                                print(f'Congradulations your loan of {loan_amount} has been sanctioned ! ' ) 
+                                
+                                user_repository.update_user(user) 
+                        except UserNotAuthenticatedException as error :
+                            print(error) 
                             continue 
-
-                        loan_approval = loan_processor.approve_loan(
-                            loan_data=loan_data , 
-                            user_data=user , 
-                            loan_amount=loan_amount
-                        ) 
-
-                        if loan_approval :
-                            print(f'Congradulations your loan of {loan_amount} has been sanctioned ! ' ) 
-                            
-                            user_repository.update_user(user)
 
                     else : 
                         print('You have chosen not to proceed with the loan !') 
@@ -124,13 +133,14 @@ while True:
                     user_repository = UserRepository()  
                     loan_processor = LoanProcessor() 
                     payment_processor = LoanPaymentService() 
-                    user = user_repository.find_user(id) 
 
-                    if not user : 
+                    try : 
+                        user = user_repository.find(id) 
+                        print(f"Welcome Back {user.name} ! ")  
+
+                    except UserNotFoundException as error:
                         print('User not found ! Please apply for a loan first !') 
                         continue
-
-                    print(f"Welcome Back {user.name} ! ")  
 
                     if len(user.loans) == 0 : 
                         print('You have no active loans ! Please apply for a loan first !') 
@@ -140,23 +150,26 @@ while True:
 
                     loan_id:int = int(input('Please enter the Loan ID you want to pay EMI for : ')) 
 
-                    selected_loan = loan_processor.find_loan(loan_id=loan_id , user_data=user)  
+                    try : 
+                        selected_loan = loan_processor.find_loan(loan_id=loan_id , user_data=user)  
 
-                    if not selected_loan : 
-                        print('Loan not found ! Please try again !') 
-                        continue
+                    except LoanNotFoundException as error :
+                        print(error) 
+                        continue 
 
-                    loan_processor.display_selected_loan(selected_loan)
+                    else : 
 
-                    emi_payment:float = float(input('Please enter the EMI amount you want to pay : ')) 
+                        loan_processor.display_selected_loan(selected_loan)
 
-                    valid_payment = payment_processor.validate_payment(amount = emi_payment , emi = selected_loan.emi) 
+                        emi_payment:float = float(input('Please enter the EMI amount you want to pay : ')) 
 
-                    if valid_payment :
-                        payment_processor.process_payment(loan_data=selected_loan , amount= emi_payment)  
+                        valid_payment = payment_processor.validate_payment(amount = emi_payment , emi = selected_loan.emi) 
 
-                    user_repository.update_user(user)
-                    break
+                        if valid_payment :
+                            payment_processor.process_payment(loan_data=selected_loan , amount= emi_payment)  
+
+                        user_repository.update_user(user)
+                        break
 
             except ValueError : 
                 print('Invalid input, please try again !') 

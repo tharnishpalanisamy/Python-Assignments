@@ -3,6 +3,7 @@ from email.utils import make_msgid, formatdate  # Crucial for bypassing spam fil
 import smtplib
 from config import PASSWORD 
 import random 
+from Modules.Exception.exception import UserNotAuthenticatedException
 
 
 class EmailSender:
@@ -71,7 +72,7 @@ class EmailSender:
                 print(f'Incorrect Otp ! {attempts} left') 
             elif user_otp == otp :
                 return True 
-        return False 
+        raise UserNotAuthenticatedException('Authentication Failed')  
 
 
 

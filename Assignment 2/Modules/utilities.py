@@ -103,6 +103,6 @@
 
 import re 
 
-def validate_email(self, email: str) -> bool:
+def validate_email( email: str) -> bool:
     pattern = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
     return bool(re.fullmatch(pattern, email))

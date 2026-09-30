@@ -3,17 +3,21 @@ import json
 from Modules.models.User import User  
 from dataclasses import asdict 
 from utilities import validate_email
-class UserRepository:
+from Modules.Exception.exception import UserNotFoundException , InvalidEmailException
+from Modules.repositories.BaseRepository import BaseRepository
+
+
+class UserRepository(BaseRepository):
     def __init__(self) :
         self.user_path = USER_PATH 
 
-    def get_all_users(self) :
+    def get_all(self) :
 
         with self.user_path.open('r') as file : 
             data = json.load(file)
             return data 
 
-    def create_user(self, user_id: int) -> User | None :
+    def create_user(self, user_id: int) -> User  :
         print('You are a new User !') 
         name = input("Enter your name: ")
         email = input("Enter your email: ")
@@ -35,12 +39,12 @@ class UserRepository:
                 loans=[]
             ) 
         else:
-            return None 
+            raise InvalidEmailException(f'The email id {email} is not valid ')
 
     
-    def find_user(self, user_id: int) -> User | None:
+    def find(self, user_id: int) -> User :
 
-        all_users = self.get_all_users()
+        all_users = self.get_all()
         for user in all_users:
             if user["id"] == user_id:
                 return User(
@@ -56,17 +60,17 @@ class UserRepository:
                     loans=user["loans"]
                 )
 
-        return None
+        raise UserNotFoundException(f"User not found corresponding to the id {user_id}")
     
     def save_user(self , user : User ) -> None :
-        all_users = self.get_all_users() 
+        all_users = self.get_all() 
         all_users.append(asdict(user))  
 
         with self.user_path.open('w' ) as file  : 
             json.dump(all_users , file , indent=4) 
 
     def update_user(self, user: User) -> None:
-        all_users = self.get_all_users()
+        all_users = self.get_all()
 
         for index, current_user in enumerate(all_users):
             if current_user['id'] == user.id:

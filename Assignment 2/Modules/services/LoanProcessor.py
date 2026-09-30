@@ -1,8 +1,7 @@
 from Modules.models.User import User 
 from Modules.models.UserLoan import UserLoan 
 from Modules.models.LoanService import LoanService
-import math 
-
+from Modules.Exception.exception import LoanNotFoundException
 class LoanProcessor : 
     def __init__(self): 
         self.eligibility = False  
@@ -46,7 +45,7 @@ class LoanProcessor :
         return True 
 
 
-    def find_loan(self ,user_data:User, loan_id:int  ) -> UserLoan | None :
+    def find_loan(self ,user_data:User, loan_id:int  ) -> UserLoan :
         for loan in user_data.loans :
             if loan['loan_id'] == loan_id :
                 return UserLoan(
@@ -59,7 +58,7 @@ class LoanProcessor :
                     status = loan['status'] ,
                     payment_history = loan['payment_history']
                 )
-        return None  
+        raise LoanNotFoundException('Loan with id : {loan_id} Not Found ! ') 
 
 
     def display_summary(self,loan_data , loan_amount , emi ) ->None :
