@@ -2,7 +2,7 @@ from config import USER_PATH
 import json 
 from Modules.models.User import User  
 from dataclasses import asdict 
-from utilities import validate_email
+from Modules.utilities import validate_email
 from Modules.Exception.exception import UserNotFoundException , InvalidEmailException
 from Modules.repositories.BaseRepository import BaseRepository
 

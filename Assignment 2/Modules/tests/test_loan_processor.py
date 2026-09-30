@@ -6,7 +6,7 @@ import pytest
     [
         # Normal EMI cases
         (100000, 12, 12, 8884.88),
-        (200000, 10, 24, 9229.16),
+        (200000, 10, 24, 9228.99),
         (500000, 8, 60, 10138.20),
 
         # Zero interest
@@ -15,11 +15,11 @@ import pytest
 
         # Different loan amounts
         (50000, 10, 12, 4395.79),
-        (1000000, 12, 60, 22244.47),
+        (1000000, 12, 60, 22244.45),
 
         # Different durations
         (100000, 12, 24, 4707.35),
-        (100000, 12, 36, 3321.54),
+        (100000, 12, 36, 3321.43),
     ]
 )
 
@@ -28,5 +28,5 @@ def test_calculate_emi(loan_amount , interest , duration , expected) :
     service = LoanProcessor() 
     result = service.calculate_emi(loan_amount , interest , duration) 
 
-    return result == expected 
+    assert result == expected 
 
