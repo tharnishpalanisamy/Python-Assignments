@@ -22,6 +22,9 @@ class LoanRepository(BaseRepository) :
             writer  = csv.DictWriter(file , fieldnames=LOANS_FIELD)
             writer.writerow(asdict(loan))
 
+    def find(self , id:int) :
+        all_loans = self.get_all() 
+        
 
 
                          

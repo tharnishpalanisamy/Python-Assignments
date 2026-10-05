@@ -148,11 +148,11 @@ while True:
                         print('User not found ! Please apply for a loan first !') 
                         continue
 
-                    if len(user.loans) == 0 : 
-                        print('You have no active loans ! Please apply for a loan first !') 
-                        continue
+                    # if len(user.loans) == 0 : 
+                    #     print('You have no active loans ! Please apply for a loan first !') 
+                    #     continue
 
-                    user.display_loans() 
+                    loan_processor.display_user_loans(user.id) 
 
                     loan_id:int = int(input('Please enter the Loan ID you want to pay EMI for : ')) 
 

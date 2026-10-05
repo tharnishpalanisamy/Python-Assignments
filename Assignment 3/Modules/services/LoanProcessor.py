@@ -56,9 +56,30 @@ class LoanProcessor :
                     duration_months = loan['duration_months'] ,
                     status = loan['status'] ,
                 )
-        raise LoanNotFoundException('Loan with id : {loan_id} Not Found ! ') 
+        raise LoanNotFoundException(f'Loan with id : {loan_id} Not Found ! ') 
 
 
+    def display_user_loans(self , user_id :int ) :
+        all_loans = self.loan_repository.get_all() 
+        user_loans = list(filter(
+                        lambda loan: int(loan["user_id"]) == user_id,
+                        all_loans
+                    ))
+        print('Your Active Loans are as follows : ') 
+        print(user_loans)
+        for loan in user_loans : 
+            print(
+                f"---------------------------------------------------\n"
+                f"Loan Id       : {loan['loan_id']}\n"
+                f"Loan Type     : {loan['loan_type']}\n"
+                f"Loan Amount   : {loan['loan_amount']}\n"
+                f"EMI           : {float(loan['emi']):.2f}\n"
+                f"Interest Rate : {loan['interest_rate']} %\n"
+                f"Duration      : {loan['duration_months']} months\n"
+                f"---------------------------------------------------\n"
+            )
+
+                
     def display_summary(self,loan_data , loan_amount , emi ) ->None :
         print('\nYou are eligible for this loan ! Further Details are as follows : ')  
         print(f"Loan Amount   : {loan_amount} ")

@@ -14,14 +14,14 @@ class User:
     # services : list 
     # loans : list[UserLoan] 
 
-    def display_loans(self) : 
-        print('Your Active Loans are as follows : ') 
-        for loan in self.loans : 
-            if loan['status'] == 'active' : 
-                print(
-                    f"Loan ID : {loan['loan_id']} , Loan Type : {loan['loan_type']} , "
-                    f"Loan Amount : {loan['loan_amount']} , EMI : {loan['emi']:.2f} , "
-                    f"Interest Rate : {loan['interest_rate']} % , Duration : {loan['duration_months']} months "
-                    ) 
+    # def display_loans(self) : 
+    #     print('Your Active Loans are as follows : ') 
+    #     for loan in self.loans : 
+    #         if loan['status'] == 'active' : 
+    #             print(
+    #                 f"Loan ID : {loan['loan_id']} , Loan Type : {loan['loan_type']} , "
+    #                 f"Loan Amount : {loan['loan_amount']} , EMI : {loan['emi']:.2f} , "
+    #                 f"Interest Rate : {loan['interest_rate']} % , Duration : {loan['duration_months']} months "
+    #                 ) 
      
         

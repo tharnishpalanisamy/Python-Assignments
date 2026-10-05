@@ -6,6 +6,9 @@ class BaseRepository(ABC) :
     def get_all(self) :
         pass 
 
+    @abstractmethod
+    def find(self , id : int ) :
+        pass
 
 
 
