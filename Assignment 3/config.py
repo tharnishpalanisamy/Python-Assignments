@@ -11,6 +11,10 @@ SERVICE_PATH = Path(os.getenv(
     'SERVICE_PATH'
 ))
 
+LOANS_PATH = Path(os.getenv(
+    'LOANS_PATH'
+))
+
 PASSWORD = os.getenv("PASSWORD")
 
 

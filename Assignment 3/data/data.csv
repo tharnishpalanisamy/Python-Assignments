@@ -1,0 +1,5 @@
+id,service_name,description,fee,interest_rate,duration_months,minimum_age,maximum_age,employment_required,credit_score_required
+1,Personal Loan,A short-term loan for personal financial needs.,1500,11.5,60,21,60,True,700.0
+2,Home Loan,A long-term loan for purchasing or constructing a residential property.,5000,8.5,240,21,65,True,700.0
+3,Car Loan,A loan facility for purchasing a new or used car.,3500,9.2,84,21,60,True,680.0
+4,Education Loan,A loan facility to finance higher education and related expenses.,2000,8.9,120,18,35,False,650.0

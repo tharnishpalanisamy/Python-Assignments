@@ -1,0 +1,2 @@
+loan_id ,user_id, loan_type , loan_amount , emi , interest_rate , duration_months , status 
+1,1,Personal Loan,100000.0,2199.26,11.5,60,active

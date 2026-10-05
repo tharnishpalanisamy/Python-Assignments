@@ -1,0 +1,15 @@
+id,name,email,age,employed,income,credit_score
+2,Priya Sharma,priya.sharma@example.com,31,True,95000.0,810
+3,Karthik Raj,karthik.raj@example.com,24,True,50000.0,720
+4,Divya S,divya.s@example.com,26,True,65000.0,745
+5,Rahul Menon,rahul.menon@example.com,35,True,120000.0,825
+6,Ananya Krishnan,ananya.krishnan@example.com,22,False,18000.0,690
+7,Vignesh Kumar,vignesh.kumar@example.com,29,True,85000.0,780
+8,Meena Devi,meena.devi@example.com,42,True,140000.0,835
+9,Sanjay R,sanjay.r@example.com,19,False,12000.0,650
+10,Nithya Prakash,nithya.prakash@example.com,33,True,70000.0,755
+11,Ajay Mohan,ajay.mohan@example.com,27,True,45000.0,705
+12,Keerthana V,keerthana.v@example.com,30,True,110000.0,800
+12123,tharnish,tharnishpalanisamy007@gmail.com,25,1,150000.0,1000
+1,tharnish,tharnishpalanisamy007@gmail.com,25,1,100000.0,1000
+

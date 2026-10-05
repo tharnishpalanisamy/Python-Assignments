@@ -1,0 +1,290 @@
+[
+    {
+        "id": 1,
+        "name": "1",
+        "email": "sgstzz4@gmail.com",
+        "age": 25,
+        "employed": "1",
+        "income": 100000.0,
+        "credit_score": 1000,
+        "history": [
+            "Applied for Personal Loan of amount 100000.0 with EMI 2199.26 at interest rate 11.5 % for duration of 60 months.",
+            "Applied for Personal Loan of amount 100000.0 with EMI 2199.26 at interest rate 11.5 % for duration of 60 months."
+        ],
+        "services": [
+            "Personal Loan",
+            "Personal Loan"
+        ],
+        "loans": [
+            {
+                "loan_id": 1,
+                "loan_type": "Personal Loan",
+                "loan_amount": -601.4785250258933,
+                "emi": 2199.26073748705,
+                "interest_rate": 11.5,
+                "duration_months": 57,
+                "status": "closed",
+                "payment_history": [
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Personal Loan",
+                        "amount": 5000.0,
+                        "date": "2026-09-28 17:15:47"
+                    },
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Personal Loan",
+                        "amount": 100000.0,
+                        "date": "2026-09-28 17:27:59"
+                    },
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Personal Loan",
+                        "amount": 5000.0,
+                        "date": "2026-09-28 17:28:24"
+                    }
+                ]
+            },
+            {
+                "loan_id": 2,
+                "loan_type": "Personal Loan",
+                "loan_amount": 200000.0,
+                "emi": 4398.5214749741,
+                "interest_rate": 11.5,
+                "duration_months": 60,
+                "status": "active",
+                "payment_history": [
+                    {
+                        "loan_id": 2,
+                        "loan_type": "Personal Loan",
+                        "amount": 8500.0,
+                        "date": "2026-09-29 15:58:34"
+                    },
+                    {
+                        "loan_id": 2,
+                        "loan_type": "Personal Loan",
+                        "amount": 10000.0,
+                        "date": "2026-09-29 16:18:41"
+                    }
+                ]
+            },
+            {
+                "loan_id": 3,
+                "loan_type": "Personal Loan",
+                "loan_amount": 100000.0,
+                "emi": 2199.26,
+                "interest_rate": 11.5,
+                "duration_months": 60,
+                "status": "active",
+                "payment_history": []
+            },
+            {
+                "loan_id": 4,
+                "loan_type": "Personal Loan",
+                "loan_amount": 100000.0,
+                "emi": 2199.26,
+                "interest_rate": 11.5,
+                "duration_months": 60,
+                "status": "active",
+                "payment_history": []
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "sastha",
+        "email": "231ca154@gmail.com",
+        "age": 23,
+        "employed": "1",
+        "income": 100000.0,
+        "credit_score": 1000,
+        "history": [
+            "Applied for Car Loan of amount 2000000.0 with EMI 32381.53 at interest rate 9.2 % for duration of 84 months."
+        ],
+        "services": [
+            "Car Loan"
+        ],
+        "loans": [
+            {
+                "loan_id": 1,
+                "loan_type": "Car Loan",
+                "loan_amount": 2000000.0,
+                "emi": 32381.525999498375,
+                "interest_rate": 9.2,
+                "duration_months": 84,
+                "status": "active",
+                "payment_history": []
+            }
+        ],
+        "insurance": [],
+        "cards": []
+    },
+    {
+        "id": 6,
+        "name": "tharnish",
+        "email": "streetdogmanagement@gmail.com",
+        "age": 25,
+        "employed": "1",
+        "income": 100000.0,
+        "credit_score": 1000,
+        "history": [],
+        "services": [],
+        "loans": [],
+        "insurance": [],
+        "cards": []
+    },
+    {
+        "id": 43,
+        "name": "tharnish",
+        "email": "tharnishpalanisamy007@gmail.com",
+        "age": 29,
+        "employed": "1",
+        "income": 100000.0,
+        "credit_score": 1000,
+        "history": [],
+        "services": [],
+        "loans": [],
+        "insurance": [],
+        "cards": []
+    },
+    {
+        "id": 65,
+        "name": "tharnish",
+        "email": "tharnishpalanisamy007@gmail.com",
+        "age": 25,
+        "employed": "1",
+        "income": 100000.0,
+        "credit_score": 1000,
+        "history": [],
+        "services": [],
+        "loans": []
+    },
+    {
+        "id": 123,
+        "name": "tharnish",
+        "email": "tharnishpalanisamy007@gmail.com",
+        "age": 25,
+        "employed": "1",
+        "income": 100000.0,
+        "credit_score": 1000,
+        "history": [
+            "Applied for Personal Loan of amount 100000.0 with EMI 2199.26 at interest rate 11.5 % for duration of 60 months.",
+            "Applied for Personal Loan of amount 100000.0 with EMI 2199.26 at interest rate 11.5 % for duration of 60 months.",
+            "Applied for Car Loan of amount 500000.0 with EMI 8095.38 at interest rate 9.2 % for duration of 84 months.",
+            "Applied for Car Loan of amount 500000.0 with EMI 8095.38 at interest rate 9.2 % for duration of 84 months.",
+            "Applied for Education Loan of amount 400000.0 with EMI 5045.41 at interest rate 8.9 % for duration of 120 months."
+        ],
+        "services": [
+            "Personal Loan",
+            "Personal Loan",
+            "Car Loan",
+            "Car Loan",
+            "Education Loan"
+        ],
+        "loans": [
+            {
+                "loan_id": 1,
+                "loan_type": "Personal Loan",
+                "loan_amount": 97199.26,
+                "emi": 2199.26,
+                "interest_rate": 11.5,
+                "duration_months": 59,
+                "status": "active",
+                "payment_history": [
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Personal Loan",
+                        "amount": 5000.0,
+                        "date": "2026-09-29 09:57:49"
+                    }
+                ]
+            },
+            {
+                "loan_id": 1,
+                "loan_type": "Personal Loan",
+                "loan_amount": 100000.0,
+                "emi": 2199.26,
+                "interest_rate": 11.5,
+                "duration_months": 60,
+                "status": "active",
+                "payment_history": []
+            },
+            {
+                "loan_id": 3,
+                "loan_type": "Car Loan",
+                "loan_amount": 500000.0,
+                "emi": 8095.38,
+                "interest_rate": 9.2,
+                "duration_months": 84,
+                "status": "active",
+                "payment_history": []
+            },
+            {
+                "loan_id": 3,
+                "loan_type": "Car Loan",
+                "loan_amount": 500000.0,
+                "emi": 8095.38,
+                "interest_rate": 9.2,
+                "duration_months": 84,
+                "status": "active",
+                "payment_history": []
+            },
+            {
+                "loan_id": 5,
+                "loan_type": "Education Loan",
+                "loan_amount": 400000.0,
+                "emi": 5045.41,
+                "interest_rate": 8.9,
+                "duration_months": 120,
+                "status": "active",
+                "payment_history": []
+            }
+        ]
+    },
+    {
+        "id": 101,
+        "name": "tharnish",
+        "email": "tharnishpalanisamy007@gmail.com",
+        "age": 25,
+        "employed": "1",
+        "income": 150000.0,
+        "credit_score": 1000,
+        "history": [
+            "Applied for Home Loan of amount 1000000.0 with EMI 8678.23 at interest rate 8.5 % for duration of 240 months."
+        ],
+        "services": [
+            "Home Loan"
+        ],
+        "loans": [
+            {
+                "loan_id": 1,
+                "loan_type": "Home Loan",
+                "loan_amount": 1000000.0,
+                "emi": 8678.23,
+                "interest_rate": 8.5,
+                "duration_months": 240,
+                "status": "active",
+                "payment_history": [
+                    {
+                        "loan_id": 1,
+                        "loan_type": "Home Loan",
+                        "amount": 100000.0,
+                        "date": "2026-09-29 16:31:30"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 1004,
+        "name": "tharnish",
+        "email": "tharnishpalanisamy007@gmail.com",
+        "age": 25,
+        "employed": "1",
+        "income": 1.0,
+        "credit_score": 100,
+        "history": [],
+        "services": [],
+        "loans": []
+    }
+]
