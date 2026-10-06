@@ -1,49 +1,48 @@
 from email.message import EmailMessage 
-from email.utils import make_msgid, formatdate  # Crucial for bypassing spam filters
+from email.utils import make_msgid, formatdate
 import smtplib
 from config import PASSWORD 
 import random 
-from Modules.Exception.exception import UserNotAuthenticatedException
-
+from Modules.Exception.exception import UserNotAuthenticatedException, InvalidEmailException
+from Modules.utilities import validate_email
 
 class EmailSender:
     def __init__(self):
         pass 
 
-
-    def generate_otp(self) ->int :
-        return random.randint(1000 , 9999) 
+    def generate_otp(self) -> int:
+        return random.randint(1000, 9999) 
     
-    def send_otp(self , receiver, otp): 
+    def send_otp(self, receiver: str, otp: int) -> bool: 
+        if not validate_email(receiver):
+            raise InvalidEmailException(f"Invalid recipient email: {receiver}")
+
         try: 
             sender = 'tharnishpalanisamy3@gmail.com' 
             password = PASSWORD
+            if not password:
+                raise ValueError("Email credentials not configured in environment.")
+
             msg = EmailMessage()
-            
-            # 1. Neutralize trigger words slightly & set standard headers
             msg["Subject"] = "Security Verification Code" 
             msg["From"] = sender
             msg["To"] = receiver
-            
-            # 2. ANTI-SPAM HEADERS: This is what your script was missing
             msg["Date"] = formatdate(localtime=True)
             msg["Message-ID"] = make_msgid(domain='gmail.com')
             
-            # 3. Soften the email body language
-            email_body = f"""\
-    Hello,
+            email_body = f"""Hello,
 
-    Your requested one-time security verification code is provided below to complete your profile update.
+Your requested one-time security verification code is provided below to complete your profile update.
 
-    Verification Code: {otp}
+Verification Code: {otp}
 
-    This code will remain active for 10 minutes. For account security, do not share this code with anyone.
+This code will remain active for 10 minutes. For account security, do not share this code with anyone.
 
-    If you did not initiate this request, please safely disregard this notice.
+If you did not initiate this request, please safely disregard this notice.
 
-    Regards,
-    Secure Identity Team
-    """
+Regards,
+Secure Identity Team
+"""
             msg.set_content(email_body)
         
             with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
@@ -57,26 +56,30 @@ class EmailSender:
             print(e) 
             return False
 
-    def authenticate_user(self , receiver : str ) ->bool  :
-        otp = self.generate_otp() 
+    def authenticate_user(self, receiver: str) -> bool:
+        if not validate_email(receiver):
+            raise InvalidEmailException(f"Invalid email: {receiver}")
 
-        self.send_otp(receiver=receiver , otp=otp)  
+        otp = self.generate_otp() 
+        sent = self.send_otp(receiver=receiver, otp=otp)  
+        if not sent:
+            raise UserNotAuthenticatedException("Failed to send OTP to email.")
+
         print(f'Otp has been sent to {receiver}') 
 
         attempts = 3 
-        while attempts > 0 :
-            user_otp : int = int(input('Enter the received Otp : ')) 
+        while attempts > 0:
+            try:
+                user_otp_input = input('Enter the received Otp : ').strip()
+                user_otp = int(user_otp_input)
+            except ValueError:
+                attempts -= 1
+                print(f'Invalid OTP format! Please enter a 4-digit number. {attempts} left')
+                continue
 
-            if user_otp != otp :
+            if user_otp != otp:
                 attempts -= 1 
                 print(f'Incorrect Otp ! {attempts} left') 
-            elif user_otp == otp :
+            else:
                 return True 
-        raise UserNotAuthenticatedException('Authentication Failed')  
-
-
-
-
-
-
-        
+        raise UserNotAuthenticatedException('Authentication Failed')

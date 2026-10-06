@@ -15,6 +15,11 @@ LOANS_PATH = Path(os.getenv(
     'LOANS_PATH'
 ))
 
+PAYMENT_PATH = Path(os.getenv(
+    'PAYMENT_PATH'
+))
+
+
 PASSWORD = os.getenv("PASSWORD")
 
 
