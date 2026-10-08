@@ -3,7 +3,6 @@ from Modules.models.EMI import EMI
 from datetime import datetime 
 from Modules.repositories.PaymentRepository import PaymentRepository 
 from Modules.repositories.LoanRepository import LoanRepository 
-from Modules.Exception.exception import LoanNotFoundException
 
 class LoanPaymentService:
     def __init__(self):
@@ -32,20 +31,13 @@ class LoanPaymentService:
         user_id: int,
         amount: float
     ) -> bool:
-        if not isinstance(loan_data, UserLoan):
-            raise TypeError("Expected UserLoan instance.")
-        if not isinstance(user_id, int) or user_id <= 0:
-            raise ValueError("User ID must be a positive integer.")
-        try:
-            amount = float(amount)
-        except (ValueError, TypeError):
-            raise ValueError("Payment amount must be a valid number.")
-
+        amount = float(amount)
         if not self.validate_payment(amount, loan_data.emi):
-            raise ValueError("Payment validation failed.")
+            return False
 
         if loan_data.status.lower() == 'closed':
-            raise ValueError("Cannot make payments on an already closed loan.")
+            print("Cannot make payments on an already closed loan.")
+            return False
 
         all_payments = self.payment_repository.get_all()
 
@@ -64,15 +56,12 @@ class LoanPaymentService:
         user_loan = None
 
         for loan in all_loans:
-            try:
-                if int(loan['loan_id']) == loan_data.loan_id:
-                    user_loan = loan
-                    break
-            except (ValueError, KeyError):
-                continue
+            if int(loan.get('loan_id', -1)) == loan_data.loan_id:
+                user_loan = loan
+                break
 
         if user_loan is None:
-            raise LoanNotFoundException(f"Loan with ID {loan_data.loan_id} not found.")
+            raise ValueError(f"Loan with ID {loan_data.loan_id} not found.")
 
         balance = amount - float(loan_data.emi)
 

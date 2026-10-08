@@ -14,29 +14,18 @@ class LoanService:
     credit_score_required: int 
 
     def __post_init__(self):
-        try:
-            self.id = int(self.id)
-            self.interest_rate = float(self.interest_rate)
-            self.duration_months = int(self.duration_months)
-            self.minimum_age = int(self.minimum_age)
-            self.maximum_age = int(self.maximum_age)
-            self.credit_score_required = int(self.credit_score_required)
-        except (ValueError, TypeError):
-            raise ValueError("Invalid numeric fields in LoanService.")
+        self.id = int(self.id)
+        self.interest_rate = float(self.interest_rate)
+        self.duration_months = int(self.duration_months)
+        self.minimum_age = int(self.minimum_age)
+        self.maximum_age = int(self.maximum_age)
+        self.credit_score_required = int(self.credit_score_required)
 
-        if self.interest_rate < 0:
-            raise ValueError("Interest rate cannot be negative.")
-        if self.duration_months <= 0:
-            raise ValueError("Duration months must be greater than zero.")
-        if self.minimum_age <= 0 or self.maximum_age < self.minimum_age:
-            raise ValueError("Invalid age criteria.")
-        if self.credit_score_required < 0:
-            raise ValueError("Credit score requirement cannot be negative.")
+        if self.interest_rate < 0 or self.duration_months <= 0:
+            raise ValueError("Invalid interest rate or duration.")
 
     def check_eligibility(self, user_data: User, loan_amount: float) -> bool:
-        if not user_data or not isinstance(user_data, User):
-            return False
-        if not isinstance(loan_amount, (int, float)) or loan_amount <= 0:
+        if not user_data or loan_amount <= 0:
             return False
 
         minimum_income = math.ceil(loan_amount / 60) 
@@ -55,7 +44,7 @@ class LoanService:
         return False 
 
     def display_eligibility(self, loan_amount: float) -> None:
-        if not isinstance(loan_amount, (int, float)) or loan_amount <= 0:
+        if loan_amount <= 0:
             raise ValueError("Loan amount must be greater than zero.")
 
         minimum_income = math.ceil(loan_amount / 60)

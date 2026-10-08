@@ -5,17 +5,11 @@ from Modules.models.LoanService import LoanService
 from Modules.services.LoanProcessor import LoanProcessor 
 from Modules.services.LoanPaymentService import LoanPaymentService 
 from Modules.repositories.UserRepository import UserRepository  
-from Modules.Exception.exception import (
-    UserNotFoundException,
-    InvalidEmailException,
-    UserNotAuthenticatedException,
-    LoanNotFoundException
-)
 
 try:
     with SERVICE_PATH.open('r') as file:
         service_data: list[dict] = list(csv.DictReader(file)) 
-except (FileNotFoundError, Exception) as error:
+except Exception as error:
     print(f"Error loading service data: {error}")
     exit(1)
 
@@ -76,18 +70,12 @@ while True:
                         raise ValueError("User ID must be greater than zero.")
 
                     user_repository = UserRepository() 
-
-                    try: 
-                        user = user_repository.find(id)   
-                    except UserNotFoundException as error:
-                        try:
-                            user = user_repository.create_user(id)
-                            user_repository.save_user(user)  
-                        except (ValueError, InvalidEmailException) as error:
-                            print(error) 
-                            continue 
-                    else: 
-                        print(f"Welcome Back {user.name} ! ")  
+                    user = user_repository.find(id)
+                    if not user:
+                        user = user_repository.create_user(id)
+                        user_repository.save_user(user)
+                    else:
+                        print(f"Welcome Back {user.name} ! ")
 
                     loan_amount: float = float(input('Please enter the loan amount you want to apply for : ')) 
                     if loan_amount <= 0:
@@ -118,11 +106,7 @@ while True:
 
                     if loan_choice == 1: 
                         email_sender = EmailSender() 
-                        try: 
-                            user_authenticated = email_sender.authenticate_user(user.email) 
-                            if not user_authenticated:
-                                raise UserNotAuthenticatedException("Authentication was unsuccessful.")
-
+                        if email_sender.authenticate_user(user.email):
                             loan_approval = loan_processor.approve_loan(
                                 loan_data=loan_data, 
                                 user_data=user, 
@@ -130,8 +114,8 @@ while True:
                             ) 
                             if loan_approval:
                                 print(f'Congratulations your loan of {loan_amount} has been sanctioned ! ') 
-                        except UserNotAuthenticatedException as error:
-                            print(error) 
+                        else:
+                            print("Authentication was unsuccessful.")
                             continue 
                     else: 
                         print('You have chosen not to proceed with the loan !') 
@@ -149,12 +133,11 @@ while True:
                     loan_processor = LoanProcessor() 
                     payment_processor = LoanPaymentService() 
 
-                    try: 
-                        user = user_repository.find(id) 
-                        print(f"Welcome Back {user.name} ! ")  
-                    except UserNotFoundException as error:
+                    user = user_repository.find(id) 
+                    if not user:
                         print('User not found ! Please apply for a loan first !') 
                         continue
+                    print(f"Welcome Back {user.name} ! ")  
 
                     has_loans = loan_processor.display_user_loans(user.id) 
                     if not has_loans:
@@ -164,11 +147,10 @@ while True:
                     if loan_id <= 0:
                         raise ValueError("Loan ID must be greater than zero.")
                     
-                    try: 
-                        selected_loan = loan_processor.find_loan(loan_id=loan_id, user_data=user)  
-                    except LoanNotFoundException as error:
-                        print(error) 
-                        continue 
+                    selected_loan = loan_processor.find_loan(loan_id=loan_id, user_data=user)
+                    if not selected_loan:
+                        print(f"Loan with ID {loan_id} was not found for this user.")
+                        continue
 
                     if selected_loan.status.lower() == 'closed':
                         print('This loan is already closed and fully paid off.')
@@ -189,7 +171,7 @@ while True:
                         continue
 
             except ValueError as error:
-                print(f"ValueError: {error}")
+                print(f"Invalid input: {error}")
                 continue
 
             except Exception as e:

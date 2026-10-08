@@ -12,20 +12,11 @@ class EMI:
     date: Union[datetime, str]
 
     def __post_init__(self):
-        try:
-            self.payment_id = int(self.payment_id)
-            self.loan_id = int(self.loan_id)
-            self.user_id = int(self.user_id)
-            self.loan_amount = float(self.loan_amount)
-        except (ValueError, TypeError):
-            raise ValueError("Invalid numeric values for EMI payment.")
+        self.payment_id = int(self.payment_id)
+        self.loan_id = int(self.loan_id)
+        self.user_id = int(self.user_id)
+        self.loan_amount = float(self.loan_amount)
 
-        if self.payment_id <= 0:
-            raise ValueError("Payment ID must be positive.")
-        if self.loan_id <= 0:
-            raise ValueError("Loan ID must be positive.")
-        if self.user_id <= 0:
-            raise ValueError("User ID must be positive.")
         if self.loan_amount <= 0:
             raise ValueError("Payment amount must be greater than zero.")
 

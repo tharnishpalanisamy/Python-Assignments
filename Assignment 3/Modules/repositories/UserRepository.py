@@ -3,7 +3,6 @@ import csv
 from Modules.models.User import User  
 from dataclasses import asdict 
 from Modules.utilities import validate_email, USER_FIELDS
-from Modules.Exception.exception import UserNotFoundException, InvalidEmailException
 from Modules.repositories.BaseRepository import BaseRepository 
 
 class UserRepository(BaseRepository):
@@ -17,14 +16,11 @@ class UserRepository(BaseRepository):
             with self.user_path.open('r', newline="") as file: 
                 reader = csv.DictReader(file)
                 return [row for row in reader if row.get("id")]
-        except (IOError, OSError) as error:
+        except Exception as error:
             print(f"Error reading users file: {error}")
             return []
 
     def create_user(self, user_id: int) -> User:
-        if not isinstance(user_id, int) or user_id <= 0:
-            raise ValueError("User ID must be a positive integer.")
-
         print('You are a new User !') 
         name = input("Enter your name: ").strip()
         if not name:
@@ -32,12 +28,9 @@ class UserRepository(BaseRepository):
 
         email = input("Enter your email: ").strip()
         if not validate_email(email=email):
-            raise InvalidEmailException(f"The email id '{email}' is not valid.")
+            raise ValueError(f"The email id '{email}' is not valid.")
 
-        try:
-            age = int(input("Enter your age: ").strip())
-        except ValueError:
-            raise ValueError("Age must be a valid integer.")
+        age = int(input("Enter your age: ").strip())
         if age <= 0 or age > 120:
             raise ValueError("Age must be between 1 and 120.")
 
@@ -46,17 +39,11 @@ class UserRepository(BaseRepository):
             raise ValueError("Employment status must be 1 (Yes) or 0 (No).")
         employed = int(employed_input)
 
-        try:
-            income = float(input("Enter your income: ").strip())
-        except ValueError:
-            raise ValueError("Income must be a valid number.")
+        income = float(input("Enter your income: ").strip())
         if income < 0:
             raise ValueError("Income cannot be negative.")
 
-        try:
-            credit_score = int(input("Enter your credit score: ").strip())
-        except ValueError:
-            raise ValueError("Credit score must be a valid integer.")
+        credit_score = int(input("Enter your credit score: ").strip())
         if credit_score < 0:
             raise ValueError("Credit score cannot be negative.")
 
@@ -70,24 +57,14 @@ class UserRepository(BaseRepository):
             credit_score=credit_score,
         )
 
-    def find(self, user_id: int) -> User:
-        if not isinstance(user_id, int) or user_id <= 0:
-            raise ValueError("User ID must be a positive integer.")
-
+    def find(self, user_id: int) -> User | None:
         all_users = self.get_all()
         for user in all_users:
-            if not user or not user.get("id"):
-                continue
-            try:
-                curr_id = int(user["id"])
-            except (ValueError, TypeError):
-                continue
-
-            if curr_id == user_id:
+            if user.get("id") and int(user["id"]) == user_id:
                 raw_employed = str(user.get("employed", "0")).strip().lower()
                 employed = 1 if raw_employed in ("true", "1", "yes") else 0
                 return User(
-                    id=curr_id,
+                    id=int(user["id"]),
                     name=user["name"],
                     age=int(user["age"]),
                     email=user["email"],
@@ -95,12 +72,9 @@ class UserRepository(BaseRepository):
                     income=float(user["income"]),
                     credit_score=int(float(user["credit_score"])),
                 )
-
-        raise UserNotFoundException(f"User not found corresponding to the id {user_id}")
+        return None
     
     def save_user(self, user: User) -> None:
-        if not isinstance(user, User):
-            raise TypeError("Expected User instance.")
         try:
             file_exists = self.user_path.exists() and self.user_path.stat().st_size > 0
             with self.user_path.open('a', newline="") as file: 
@@ -108,30 +82,25 @@ class UserRepository(BaseRepository):
                 if not file_exists:
                     writer.writeheader()
                 writer.writerow(asdict(user)) 
-        except (IOError, OSError) as error:
+        except Exception as error:
             print(f"Error saving user: {error}")
 
     def update_user(self, user: User) -> None:
-        if not isinstance(user, User):
-            raise TypeError("Expected User instance.")
         all_users = self.get_all()
         found = False
         for index, current_user in enumerate(all_users):
-            try:
-                if int(current_user['id']) == user.id:
-                    all_users[index] = asdict(user)
-                    found = True
-                    break
-            except (ValueError, KeyError):
-                continue
+            if int(current_user.get('id', -1)) == user.id:
+                all_users[index] = asdict(user)
+                found = True
+                break
 
         if not found:
-            raise UserNotFoundException(f"User with ID {user.id} not found to update.")
+            raise ValueError(f"User with ID {user.id} not found to update.")
 
         try:
             with self.user_path.open('w', newline="") as file: 
                 writer = csv.DictWriter(file, fieldnames=USER_FIELDS)
                 writer.writeheader()
                 writer.writerows(all_users)
-        except (IOError, OSError) as error:
+        except Exception as error:
             print(f"Error updating user: {error}")

@@ -2,3 +2,5 @@ loan_id,user_id,loan_type,loan_amount,emi,interest_rate,duration_months,status
 1,1,Personal Loan,0.0,2199.26,11.5,58,closed
 2,157,Education Loan,91261.35,1261.35,8.9,119,active
 3,1,Car Loan,9161.91,161.91,9.2,83,active
+4,1,Personal Loan,100000.0,2199.26,11.5,60,active
+5,1001,Personal Loan,971992.61,21992.61,11.5,59,active

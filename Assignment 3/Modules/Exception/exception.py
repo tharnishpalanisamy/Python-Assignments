@@ -1,11 +1,12 @@
-class UserNotFoundException(Exception) :
-    pass 
+# Common base for legacy imports; standard code uses ValueError
+class UserNotFoundException(ValueError):
+    pass
 
-class InvalidEmailException(Exception) :
-    pass 
+class InvalidEmailException(ValueError):
+    pass
 
-class UserNotAuthenticatedException(Exception) :
-    pass 
+class UserNotAuthenticatedException(ValueError):
+    pass
 
-class LoanNotFoundException(Exception) : 
-    pass 
+class LoanNotFoundException(ValueError):
+    pass

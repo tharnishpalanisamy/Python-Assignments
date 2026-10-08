@@ -7,3 +7,4 @@ payment_id,loan_id,user_id,loan_type,amount,date
 15,2,157,Education Loan,10000.0,2026-10-06 15:20:37
 7,1,1,Personal Loan,100000.0,2026-10-06 16:13:45
 8,3,1,Car Loan,1000.0,2026-10-06 17:57:24
+9,5,1001,Personal Loan,50000.0,2026-10-08 17:09:45

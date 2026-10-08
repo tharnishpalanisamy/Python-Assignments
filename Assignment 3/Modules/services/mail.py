@@ -3,7 +3,6 @@ from email.utils import make_msgid, formatdate
 import smtplib
 from config import PASSWORD 
 import random 
-from Modules.Exception.exception import UserNotAuthenticatedException, InvalidEmailException
 from Modules.utilities import validate_email
 
 class EmailSender:
@@ -15,7 +14,7 @@ class EmailSender:
     
     def send_otp(self, receiver: str, otp: int) -> bool: 
         if not validate_email(receiver):
-            raise InvalidEmailException(f"Invalid recipient email: {receiver}")
+            raise ValueError(f"Invalid recipient email: {receiver}")
 
         try: 
             sender = 'tharnishpalanisamy3@gmail.com' 
@@ -58,12 +57,13 @@ Secure Identity Team
 
     def authenticate_user(self, receiver: str) -> bool:
         if not validate_email(receiver):
-            raise InvalidEmailException(f"Invalid email: {receiver}")
+            raise ValueError(f"Invalid email: {receiver}")
 
         otp = self.generate_otp() 
         sent = self.send_otp(receiver=receiver, otp=otp)  
         if not sent:
-            raise UserNotAuthenticatedException("Failed to send OTP to email.")
+            print("Failed to send OTP to email.")
+            return False
 
         print(f'Otp has been sent to {receiver}') 
 
@@ -82,4 +82,5 @@ Secure Identity Team
                 print(f'Incorrect Otp ! {attempts} left') 
             else:
                 return True 
-        raise UserNotAuthenticatedException('Authentication Failed')
+        print('Authentication Failed')
+        return False
